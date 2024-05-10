@@ -1,4 +1,4 @@
-<div class="main-container">
+<div class="main-container" *ngIf="data">
     <div class="upper-container">
             <img src="/assets/images/jairo-logo.png" alt="">
             <div class="EINGRESS">
@@ -16,9 +16,9 @@
                <div class="photoholder">
                 <img class="displayPhoto" src="/assets/images/max-smith.png" alt="profilephoto">
                </div>
-               <div class="name">Sanny Paul</div>
-            <div class="date">May 8, 2024 1:09 PM</div>
+               <div class="name">{{ data.fullname }}</div>
+            <div class="date">{{ data.role }}</div>
         </div>
          
-        </div>
     </div>
+</div>

@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { Router } from '@angular/router';
+import { Employee } from '../interface/employee';
 
 @Component({
   selector: 'app-landing-page',
@@ -11,6 +12,7 @@ export class LandingPageComponent {
   @ViewChild('inputElement', { static: true }) inputElement!: ElementRef;
   isHidden: boolean = false;
   rfidInput: string = '';
+  employee: Employee[] = [];
 
   constructor(private employeeService: EmployeeService, private router: Router) {
     // Focus on the input textbox when the component is initialized
@@ -52,8 +54,7 @@ submitData(): void {
     this.employeeService.loginEmployee(this.rfidInput).subscribe({
       next: (response: any) => {
         this.router.navigateByUrl('afterLoginPage');
-        console.log('Employee access logged successfully:', response);
-
+        this.employeeService.setEmployee(response);
         setTimeout(() => {
           this.router.navigateByUrl('landingPage');
         }, 5000); 
@@ -78,7 +79,6 @@ submitData(): void {
       }
     })
   }
-
 
   this.inputElement.nativeElement.value = '';
   this.inputElement.nativeElement.focus();
