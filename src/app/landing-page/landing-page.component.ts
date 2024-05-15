@@ -63,12 +63,9 @@ submitData(): void {
       error: (error:any) => {
         this.router.navigateByUrl('errorPage');
         console.error('Error logging employee access:', error);
-        // Check if the error is due to employee not found
         if (error.status === 400 && error.error && error.error.message === 'Employee not found') {
-          // Handle employee not found error here, e.g., show a message to the user
           console.error('Employee not found.');
         } else {
-          // Handle other errors, e.g., show a generic error message to the user
           console.error('An error occurred while logging employee access.');
         }
 
