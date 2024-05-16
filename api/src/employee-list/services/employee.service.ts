@@ -88,7 +88,7 @@ create(employee: Employee): Observable<Employee> {
                         // Log the access in AccessLogService
                         // console.log(rfidTag, "This is wrong");
                         return this.accessLogService.logAccess(rfidTag).pipe(
-                            map(() => ({ fullname: employee.fullname, role: employee.role }))
+                            map(() => ({ fullname: employee.fullname, role: employee.role, profileImage: employee.profileImage }))
                           );
                     })
                 );
