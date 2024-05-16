@@ -10,6 +10,7 @@ import { EmployeeService } from '../services/employee.service';
 })
 export class AfterLoginComponent implements OnInit {
   data: Employee | null = null;
+  greetings: string = '';
 
   constructor(private employeeService: EmployeeService){}
 
@@ -17,5 +18,19 @@ export class AfterLoginComponent implements OnInit {
     this.employeeService.employee$.subscribe((employee: Employee | null) => {
       this.data = employee;
     })
+    this.setGreeting();
+  }
+
+  setGreeting(){
+    const currentTime = new Date().getHours();
+    if(currentTime < 12){
+      this.greetings = 'Good Morning';
+    }
+    else if (currentTime < 18){
+      this.greetings = 'Good Afternoon';
+    }
+    else{
+      this.greetings = 'Good Noon';
+    }
   }
 }
