@@ -57,7 +57,7 @@ submitData(): void {
         this.employeeService.setEmployee(response);
         setTimeout(() => {
           this.router.navigateByUrl('landingPage');
-        }, 5000); 
+        }, 10000); 
 
       },
       error: (error:any) => {
@@ -71,7 +71,7 @@ submitData(): void {
 
         setTimeout(() => {
           this.router.navigateByUrl('landingPage');
-        }, 5000); 
+        }, 3000); 
 
       }
     })
