@@ -7,11 +7,13 @@ import { CommonModule } from '@angular/common';
 import { AfterLoginComponent } from './after-login/after-login.component';
 
 import { AppComponent } from './app.component';
+import { ShutdownComponent } from './shutdown/shutdown.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AfterLoginComponent
+    AfterLoginComponent,
+    ShutdownComponent
   ],
   imports: [
     BrowserModule,

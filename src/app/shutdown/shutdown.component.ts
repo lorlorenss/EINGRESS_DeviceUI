@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { Employee } from '../interface/employee';
 
 @Component({
-  selector: 'app-landing-page',
-  templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.css']
+  selector: 'app-shutdown-page',
+  templateUrl: './shutdown.component.html',
+  styleUrls: ['./shutdown.component.css']
 })
-export class LandingPageComponent {
+export class ShutdownComponent {
   @ViewChild('inputElement', { static: true }) inputElement!: ElementRef;
   isHidden: boolean = false;
   rfidInput: string = '';
@@ -55,7 +55,7 @@ submitData(): void {
       // Special case: Navigate to 'Shutdown' after 3 seconds
       console.log('Shutdown initiated');
       setTimeout(() => {
-        this.router.navigateByUrl('shutdown');
+        this.router.navigateByUrl('landingPage');
       });
     } else {
       // Default case: Perform normal login process
@@ -86,6 +86,5 @@ submitData(): void {
   this.inputElement.nativeElement.value = '';
   this.inputElement.nativeElement.focus();
 }
-
 
 }
