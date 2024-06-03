@@ -77,8 +77,10 @@ body {
 }
 
 .photoholder img{
-    width: 350px;
-    height: 350px;
+    min-width: 300px;
+    min-height: 300px;
+    max-width: 300px;
+    max-height: 300px;
     border-radius: 300px;
 }
 

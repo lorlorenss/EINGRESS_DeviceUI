@@ -30,7 +30,7 @@ export class AfterLoginComponent implements OnInit {
       this.greetings = 'Good Afternoon';
     }
     else{
-      this.greetings = 'Good Noon';
+      this.greetings = 'Good Evening';
     }
   }
 }
