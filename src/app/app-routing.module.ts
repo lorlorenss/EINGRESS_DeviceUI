@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { AfterLoginComponent } from './after-login/after-login.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import { ShutdownComponent } from './shutdown/shutdown.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landingPage', pathMatch: 'full'},
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'errorPage',
     component: ErrorPageComponent
+  },
+  {
+    path: 'shutdown',
+    component: ShutdownComponent
   }
 ];
 @NgModule({

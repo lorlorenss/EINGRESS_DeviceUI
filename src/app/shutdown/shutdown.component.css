@@ -1,0 +1,100 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+
+body {
+    background-color: #0C131D;
+    padding: 50px;
+
+}
+
+.main-container {
+    position: relative;
+    background-color: #000000;
+    height: 1024px;
+    width: 600px;
+    margin: 0 auto;
+}
+
+
+
+.upper-container{
+    grid-template-rows: 3;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding-top: 113px;
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+.photoholder {
+    display: flex;
+    justify-content: center;
+}
+
+.photoholder img{
+    width: 200px;
+    height: 200px;
+    
+}
+
+.jairo{
+    font-size: 32px;
+    font-weight: 600;
+    color: #D0D0D1;
+    display: flex;
+    flex-direction: column;
+}
+
+.jairo p{
+    display: flex;
+    justify-content: center;
+}
+
+
+.shut{
+    padding-top: 60px;
+    font-size: 96px;
+    font-weight: 600;
+    color: #2E7BE1;
+    display: flex;
+    flex-direction: column;
+}
+
+.shut p{
+    display: flex;
+    justify-content: center;
+}
+
+
+.JairoBot{
+    position: absolute;
+    width: 265px; 
+    height: 265px;
+    bottom: 0;
+    right: 0;
+    animation: moveUpDown 1s ease-in-out infinite alternate; 
+}
+
+.hidden-input{
+    position: absolute;
+    left: -9999px;
+}
+
+@keyframes moveUpDown {
+    0% {
+        bottom: 0; 
+    }
+    100% {
+        bottom: 20px;
+    }
+}
+
+
+
