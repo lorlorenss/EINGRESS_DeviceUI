@@ -4,12 +4,12 @@ import { Router } from '@angular/router';
 import { Employee } from '../interface/employee';
 
 @Component({
-  selector: 'app-landing-page',
-  templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.css']
+  selector: 'app-confirmation',
+  templateUrl: './confirmation.component.html',
+  styleUrls: ['./confirmation.component.css']
 })
-export class LandingPageComponent {
-  @ViewChild('inputElement', { static: true }) inputElement!: ElementRef;
+export class ConfirmationComponent {
+ @ViewChild('inputElement', { static: true }) inputElement!: ElementRef;
   isHidden: boolean = false;
   rfidInput: string = '';
   employee: Employee[] = [];
@@ -59,11 +59,13 @@ submitData(): void {
       });
     } else {
       // Default case: Perform normal login process
-      this.employeeService.loginEmployee(this.rfidInput).subscribe({
+      this.employeeService.confirmEmployee(this.rfidInput).subscribe({
         next: (response: any) => {
-          this.router.navigateByUrl('confirmation');
+          this.router.navigateByUrl('afterLoginPage');
           this.employeeService.setEmployee(response);
-          
+          setTimeout(() => {
+            this.router.navigateByUrl('landingPage');
+          }, 10000); // Return to landing page after 10 seconds
         },
         error: (error: any) => {
           this.router.navigateByUrl('errorPage');

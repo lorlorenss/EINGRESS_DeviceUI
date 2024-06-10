@@ -8,12 +8,14 @@ import { AfterLoginComponent } from './after-login/after-login.component';
 
 import { AppComponent } from './app.component';
 import { ShutdownComponent } from './shutdown/shutdown.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AfterLoginComponent,
-    ShutdownComponent
+    ShutdownComponent,
+    ConfirmationComponent
   ],
   imports: [
     BrowserModule,

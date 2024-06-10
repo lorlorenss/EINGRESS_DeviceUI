@@ -19,6 +19,11 @@ export class EmployeeService {
     return this.http.post<any>(loginEmployeeUrl, { rfidTag: rfidValue });
   }
 
+  confirmEmployee(rfidValue: string): Observable<any>{
+    const loginEmployeeUrl = `${this.apiUrl}/log-access`;
+    return this.http.post<any>(loginEmployeeUrl, { fingerprint: rfidValue });
+  }
+
   setEmployee(employee: Employee){
     this.employeeSubject.next(employee);
   }
