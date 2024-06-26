@@ -72,11 +72,8 @@ create(@Body() payload: { employee: Employee }, @UploadedFile() file): Observabl
         );
     }
 
-    // @Get('rfidTag:rfidtag')
-    // findByRfidTag(@Param('rfidTag') rfidTag: string): Observable<Employee> {
-    //   return this.userService.findByRfidTag(rfidTag);
-    // }
 
+//THIS CODE IS FOR FETCHING THE RFIDTAG AND VERIFYING
     @Get(':rfidTag')
     verifyRfid(@Param('rfidTag') rfidTag: string): Observable<Employee> {
       return this.userService.findByRfidTag(rfidTag).pipe(
@@ -116,16 +113,24 @@ create(@Body() payload: { employee: Employee }, @UploadedFile() file): Observabl
     
     
 
-    // create(@Body() payload: { employee: Employee }, @UploadedFile() file): Observable<Employee | Object> {
-  
-  @Post('log-access')
-  logAccess(@Body('rfidTag') rfidTag: string): Promise<void> {
-    if (!rfidTag) {
-      throw new BadRequestException('RFID tag is required');
-    }
+  // @Post('log-access')
+  // logAccess(@Body('rfidTag') rfidTag: string): Promise<void> {
+  //   if (!rfidTag) {
+  //     throw new BadRequestException('RFID tag is required');
+  //   }
     
-      // console.log(rfidTag, "This is wrong");
-    return this.userService.logEmployeeAccess(rfidTag).toPromise();
+  //     // console.log(rfidTag, "This is wrong");
+  //   return this.userService.logEmployeeAccess(rfidTag).toPromise();
+  // }
+
+  //THIS IS TO POST THE LOG ACCESS
+  @Post('log-access')
+  logAccess(@Body('fingerprint') fingerprint: string): Promise<void> {
+    if (!fingerprint) {
+      throw new BadRequestException('Fingerprint is required');
+    }
+
+    return this.userService.logEmployeeAccess(fingerprint).toPromise();
   }
   
  

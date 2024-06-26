@@ -45,33 +45,11 @@ export class AccessLogService {
     });
   }
   
-  // logAccess(rfidTag: string, accessType: string, roleAtAccess: string): Observable<void> {
-  //   // Find the employee by RFID tag
-  //   return from(this.employeeRepository.findOne({ where: { rfidtag: rfidTag } })).pipe(
-  //     switchMap(employee => {
-  //       if (!employee) {
-  //         throw new BadRequestException('Employee not found');
-  //       }
 
-  //       // Create a new access log entry
-  //       const accessLog: _dbaccesslog = {
-  //         employee,
-  //         accessDateTime: new Date(),
-  //         accessType,
-  //         roleAtAccess,
-  //         id: 0,
-  //       };
-
-  //       // Save the access log
-  //       return from(this.accessLogRepository.save(accessLog)).pipe(
-  //         map(() => {})
-  //       );
-  //     })
-  //   );
-  // }
-  
-  logAccess(rfidTag: string): Observable<void> {
-    return from(this.employeeRepository.findOne({ where: { rfidtag: rfidTag } })).pipe(
+  //THIS CODE IS FOR INPUTTING THE ACCESS LOG OF THE EMPLOYEE USING THE FINGERPRINT
+  //THIS IS ALSO CONNECTED TO THE EMPLOYEE SERVICESS "logEmployeeAccess"
+  logAccess(fingerprint: string): Observable<void> {
+    return from(this.employeeRepository.findOne({ where: { fingerprint: fingerprint } })).pipe(
       switchMap((employee: _dbemployee) => {
         if (!employee) {
           throw new BadRequestException('Employee not found');
@@ -84,6 +62,7 @@ export class AccessLogService {
           accessType: 'In', // or 'Out', depending on the logic
           roleAtAccess: employee.role,
           employee: employee, // Include the employee entity
+          fingerprint:employee.fingerprint
          
           // Any additional properties you need to include in the access log entry
         };

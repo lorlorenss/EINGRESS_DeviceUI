@@ -3,4 +3,5 @@ export interface Employee {
     role: string;
     profileImage: string;
     rfidtag?: string;
+    fingerprint?:string;
 }

@@ -25,10 +25,21 @@ export class EmployeeService {
     );
   }
 
-  confirmEmployee(rfidValue: string): Observable<any>{
+  // confirmEmployee(rfidValue: string): Observable<Employee>{
+  //   const loginEmployeeUrl = `${this.apiUrl}/log-access`;
+  //   return this.http.post<Employee>(loginEmployeeUrl, { fingerprint: rfidValue });
+  // }
+
+  confirmEmployee(fingerprint: string): Observable<Employee> {
     const loginEmployeeUrl = `${this.apiUrl}/log-access`;
-    return this.http.post<any>(loginEmployeeUrl, { fingerprint: rfidValue });
+    return this.http.post<Employee>(loginEmployeeUrl, { fingerprint }).pipe(
+      catchError(err => {
+        console.error('Error logging employee access:', err);
+        return throwError('Error logging employee access');
+      })
+    );
   }
+
 
   setEmployee(employee: Employee){
     this.employeeSubject.next(employee);
