@@ -6,6 +6,7 @@ import { Employee } from '../models/employee.interface';
 import { _dbemployee } from '../models/employee.entity';
 import { _dbaccesslog } from '../../access-log/models/access-log.entity';  // Update this import path
 import { AccessLogService } from 'src/access-log/services/access-log.service';
+import { register } from 'module';
 
 @Injectable()
 export class EmployeeService {
@@ -59,7 +60,7 @@ create(employee: Employee): Observable<Employee> {
     }
     
     logEmployeeAccess(rfidTag: string): Observable<any> {
-        console.log(rfidTag);
+        // console.log(rfidTag);
         return from(this.userRepository.findOne({ where: { rfidtag: rfidTag } })).pipe(
             switchMap(employee => {
                 if (!employee) {
@@ -85,7 +86,10 @@ create(employee: Employee): Observable<Employee> {
                 return from(this.userRepository.save(employee)).pipe(
                     switchMap(() => {
                         // Log the access in AccessLogService
-                        return this.accessLogService.logAccess(rfidTag);
+                        // console.log(rfidTag, "This is wrong");
+                        return this.accessLogService.logAccess(rfidTag).pipe(
+                            map(() => ({ fullname: employee.fullname, role: employee.role, profileImage: employee.profileImage }))
+                          );
                     })
                 );
             }),
@@ -100,46 +104,7 @@ create(employee: Employee): Observable<Employee> {
         );
     }
   
-
-    // logEmployeeAccess(employeeId: number, accessType: string, roleAtAccess: string): Observable<any> {
-    //     // Find the employee by ID
-    //     return from(this.userRepository.findOne({ where: { id: employeeId } })).pipe(
-    //       switchMap(employee => {
-    //         if (!employee) {
-    //           throw new BadRequestException('Employee not found');
-    //         }
-      
-    //         // // Update the last login date for the employee
-    //         // const dateOnly = this.getOnlyDate(new Date().toISOString());
-    //         // employee.lastlogdate = dateOnly;
-
-    //          //last logdate has time and date
-    //          const currentDate = new Date();
-    //           const options: Intl.DateTimeFormatOptions = {
-    //             year: 'numeric', 
-    //             month: '2-digit', 
-    //             day: '2-digit',
-    //             hour: '2-digit', 
-    //             minute: '2-digit', 
-    //             second: '2-digit',
-    //             hour12: false, // Use 24-hour format
-    //             timeZone: 'Asia/Manila' // Set the time zone to Philippine time
-    //           };
-    //           const dateAndTimeInPhilippineTime = currentDate.toLocaleString('en-PH', options);
-    //           employee.lastlogdate = dateAndTimeInPhilippineTime;
-
-      
-    //         // Save the updated employee
-    //         return from(this.userRepository.save(employee)).pipe(
-    //           switchMap(() => {
-    //             // Log the access in AccessLogService
-    //             return this.accessLogService.logAccess(rfi, accessType, roleAtAccess);
-    //           })
-    //         );
-    //       })
-    //     );
-    //   }
-      
+     
       getOnlyDate(datetime: string): string {
         const date = new Date(datetime);
         const year = date.getFullYear();
@@ -181,61 +146,3 @@ create(employee: Employee): Observable<Employee> {
 
 }
 
-
-    // logEmployeeAccess(employeeId: number, accessType: string, roleAtAccess: string): Observable<any> {
-    //     // Find the employee by ID
-    //     return from(this.userRepository.findOne({ where: { id: employeeId } })).pipe(
-    //         switchMap(employee => {
-    //             if (!employee) {
-    //                 throw new BadRequestException('Employee not found');
-    //             }
-
-    //             // Update the last login date for the employee
-    //             employee.lastlogdate = new Date().toISOString();
-    //             return from(this.userRepository.save(employee)).pipe(
-    //                 switchMap(() => {
-    //                     // Create a new accessLog entry
-    //                     const accessLog = new _dbaccesslog();
-    //                     accessLog.employee = employee;
-    //                     accessLog.accessDateTime = new Date();
-    //                     accessLog.accessType = accessType;
-    //                     accessLog.roleAtAccess = roleAtAccess;
-
-    //                     return from(this.accessLogRepository.save(accessLog));
-    //                 })
-    //             );
-    //         })
-    //     );
-    // } 
-
-    
-//     findAll(): Observable<any> {
-//       // Fetch all employees
-//       return from(this.userRepository.find()).pipe(
-//           switchMap(employees => {
-//               // For each employee, fetch the last login date from the access log
-//               return from(employees).pipe(
-//                   mergeMap(employee => {
-//                       // Fetch the last login date for the current employee
-//                       return from(this.accessLogRepository.findOne({
-//                           where: { employee: employee },
-//                           order: { accessDateTime: 'DESC' },
-//                       })).pipe(
-//                           map((latestAccessLog) => {
-//                               // Combine employee data with last login date
-//                               return {
-//                                   id: employee.id,
-//                                   fullname: employee.fullname,
-//                                   role: employee.role,
-//                                   regdate: employee.regdate,
-//                                   lastLoginDate: latestAccessLog ? latestAccessLog.accessDateTime : null,
-//                               };
-//                           })
-//                       );
-//                   }),
-//               );
-//           })
-//       );
-//   }
-  
-  

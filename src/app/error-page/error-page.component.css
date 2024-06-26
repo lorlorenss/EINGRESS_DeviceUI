@@ -4,13 +4,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
 }
 
 /* Body styles */
 body {
     background-color: #3C1215;
     padding: 50px; /*remove this after*/
-    font-family: 'Poppins', Arial, sans-serif;
 }
 
 /* Main container styles */
@@ -53,6 +53,7 @@ body {
     border-radius: 20px;
     background-color: #581B1F;
     margin: 0 auto;
+    padding-top: 60px;
 }
 
 .content{
@@ -61,6 +62,8 @@ body {
     align-items: center;
     text-align: center;
     justify-content: flex-start; /* Align content to the top */
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .content h1{
@@ -74,10 +77,11 @@ body {
     font-size: 48px;
     margin-top: 100px; /* Adjust margin to create space between h1 and h2 */
     color: #FFFFFF;
+    
 }
 
 
-.lower-container .JairoBot{
+.JairoBot{
     position: absolute;
     width: 250px; 
     height: 250px;

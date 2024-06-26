@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { Router } from '@angular/router';
+import { Employee } from '../interface/employee';
 
 @Component({
   selector: 'app-landing-page',
@@ -11,6 +12,7 @@ export class LandingPageComponent {
   @ViewChild('inputElement', { static: true }) inputElement!: ElementRef;
   isHidden: boolean = false;
   rfidInput: string = '';
+  employee: Employee[] = [];
 
   constructor(private employeeService: EmployeeService, private router: Router) {
     // Focus on the input textbox when the component is initialized
@@ -47,28 +49,41 @@ onFocus(): void{
 submitData(): void {
   // Perform data submission logic here
   this.rfidInput = this.inputElement.nativeElement.value;
-  if(this.rfidInput.trim() !== ''){
-    this.employeeService.loginEmployee(this.rfidInput).subscribe({
-      next: (response: any) => {
-        console.log('Employee access logged successfully:', response);
-      },
-      error: (error:any) => {
-        console.error('Error logging employee access:', error);
-        // Check if the error is due to employee not found
-        if (error.status === 400 && error.error && error.error.message === 'Employee not found') {
-          // Handle employee not found error here, e.g., show a message to the user
-          console.error('Employee not found.');
-        } else {
-          // Handle other errors, e.g., show a generic error message to the user
-          console.error('An error occurred while logging employee access.');
-        }
-      }
-    })
-  }
 
+  if (this.rfidInput.trim() !== '') {
+    if (this.rfidInput.trim() === '123') {
+      // Special case: Navigate to 'Shutdown' after 3 seconds
+      console.log('Shutdown initiated');
+      setTimeout(() => {
+        this.router.navigateByUrl('shutdown');
+      });
+    } else {
+      // Default case: Perform normal login process
+      this.employeeService.loginEmployee(this.rfidInput).subscribe({
+        next: (response: any) => {
+          this.router.navigateByUrl('confirmation');
+          this.employeeService.setEmployee(response);
+          
+        },
+        error: (error: any) => {
+          this.router.navigateByUrl('errorPage');
+          console.error('Error logging employee access:', error);
+          if (error.status === 400 && error.error && error.error.message === 'Employee not found') {
+            console.error('Employee not found.');
+          } else {
+            console.error('An error occurred while logging employee access.');
+          }
+          setTimeout(() => {
+            this.router.navigateByUrl('landingPage');
+          }, 3000); // Return to landing page after 3 seconds
+        }
+      });
+    }
+  }
 
   this.inputElement.nativeElement.value = '';
   this.inputElement.nativeElement.focus();
 }
+
 
 }
