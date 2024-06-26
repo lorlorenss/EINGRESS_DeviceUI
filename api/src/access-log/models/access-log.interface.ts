@@ -7,4 +7,5 @@ export interface AccessLog {
   accessDateTime: Date;
   accessType: string;
   roleAtAccess: string;
+  fingerprint:string;
 }

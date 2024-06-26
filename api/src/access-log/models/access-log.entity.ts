@@ -20,4 +20,8 @@ export class _dbaccesslog {
 
   @Column()
   roleAtAccess: string; // Role of the employee at the time of access
+
+  
+  @Column ()
+  fingerprint:string;
 }

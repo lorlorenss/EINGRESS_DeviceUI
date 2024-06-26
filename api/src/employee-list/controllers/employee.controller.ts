@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post , Delete, Put, NotFoundException, BadRequestException, UseInterceptors, UploadedFile, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post , Delete, Put, NotFoundException, BadRequestException, UseInterceptors, UploadedFile, Res, Query } from '@nestjs/common';
 import { EmployeeService } from '../services/employee.service';
 import { Employee } from '../models/employee.interface';
 import { Observable, catchError, map, mergeMap, of, switchMap } from 'rxjs';
@@ -54,7 +54,7 @@ create(@Body() payload: { employee: Employee }, @UploadedFile() file): Observabl
 
     @Get(':id') // Route for findOne
     findOne(@Param() params): Observable<Employee> {
-      return this.userService.findOne(params.id);
+      return this.userService.findOneID(params.id);
     }
 
     @Get() // Custom route name for findAll
@@ -72,10 +72,23 @@ create(@Body() payload: { employee: Employee }, @UploadedFile() file): Observabl
         );
     }
 
+
+//THIS CODE IS FOR FETCHING THE RFIDTAG AND VERIFYING
+    @Get(':rfidTag')
+    verifyRfid(@Param('rfidTag') rfidTag: string): Observable<Employee> {
+      return this.userService.findByRfidTag(rfidTag).pipe(
+        catchError(err => {
+          console.error('Error verifying RFID:', err);
+          throw new BadRequestException('Error verifying RFID');
+        })
+      );
+    }
+
+
     @Put(':id')
     @UseInterceptors(FileInterceptor('file', storage))
     updateOne(@Param('id') id: string, @Body() payload: { employee: Employee }, @UploadedFile() file): Observable<any> {
-      return this.userService.findOne(Number(id)).pipe(
+      return this.userService.findOneID(Number(id)).pipe(
         catchError(() => {
           throw new NotFoundException(`Employee with ID ${id} not found`);
         }),
@@ -100,16 +113,24 @@ create(@Body() payload: { employee: Employee }, @UploadedFile() file): Observabl
     
     
 
-    // create(@Body() payload: { employee: Employee }, @UploadedFile() file): Observable<Employee | Object> {
-  
-  @Post('log-access')
-  logAccess(@Body('rfidTag') rfidTag: string): Promise<void> {
-    if (!rfidTag) {
-      throw new BadRequestException('RFID tag is required');
-    }
+  // @Post('log-access')
+  // logAccess(@Body('rfidTag') rfidTag: string): Promise<void> {
+  //   if (!rfidTag) {
+  //     throw new BadRequestException('RFID tag is required');
+  //   }
     
-      // console.log(rfidTag, "This is wrong");
-    return this.userService.logEmployeeAccess(rfidTag).toPromise();
+  //     // console.log(rfidTag, "This is wrong");
+  //   return this.userService.logEmployeeAccess(rfidTag).toPromise();
+  // }
+
+  //THIS IS TO POST THE LOG ACCESS
+  @Post('log-access')
+  logAccess(@Body('fingerprint') fingerprint: string): Promise<void> {
+    if (!fingerprint) {
+      throw new BadRequestException('Fingerprint is required');
+    }
+
+    return this.userService.logEmployeeAccess(fingerprint).toPromise();
   }
   
  
