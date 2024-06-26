@@ -59,7 +59,7 @@ submitData(): void {
       });
     } else {
       // Default case: Perform normal login process
-      this.employeeService.loginEmployee(this.rfidInput).subscribe({
+      this.employeeService.verifyRfid(this.rfidInput).subscribe({
         next: (response: any) => {
           this.router.navigateByUrl('confirmation');
           this.employeeService.setEmployee(response);

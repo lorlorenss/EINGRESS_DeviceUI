@@ -83,7 +83,8 @@ export class AccessLogService {
           accessDateTime: new Date(),
           accessType: 'In', // or 'Out', depending on the logic
           roleAtAccess: employee.role,
-          employee: employee // Include the employee entity
+          employee: employee, // Include the employee entity
+         
           // Any additional properties you need to include in the access log entry
         };
 

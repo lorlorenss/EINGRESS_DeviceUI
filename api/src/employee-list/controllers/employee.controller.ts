@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post , Delete, Put, NotFoundException, BadRequestException, UseInterceptors, UploadedFile, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post , Delete, Put, NotFoundException, BadRequestException, UseInterceptors, UploadedFile, Res, Query } from '@nestjs/common';
 import { EmployeeService } from '../services/employee.service';
 import { Employee } from '../models/employee.interface';
 import { Observable, catchError, map, mergeMap, of, switchMap } from 'rxjs';
@@ -54,7 +54,7 @@ create(@Body() payload: { employee: Employee }, @UploadedFile() file): Observabl
 
     @Get(':id') // Route for findOne
     findOne(@Param() params): Observable<Employee> {
-      return this.userService.findOne(params.id);
+      return this.userService.findOneID(params.id);
     }
 
     @Get() // Custom route name for findAll
@@ -72,10 +72,26 @@ create(@Body() payload: { employee: Employee }, @UploadedFile() file): Observabl
         );
     }
 
+    // @Get('rfidTag:rfidtag')
+    // findByRfidTag(@Param('rfidTag') rfidTag: string): Observable<Employee> {
+    //   return this.userService.findByRfidTag(rfidTag);
+    // }
+
+    @Get(':rfidTag')
+    verifyRfid(@Param('rfidTag') rfidTag: string): Observable<Employee> {
+      return this.userService.findByRfidTag(rfidTag).pipe(
+        catchError(err => {
+          console.error('Error verifying RFID:', err);
+          throw new BadRequestException('Error verifying RFID');
+        })
+      );
+    }
+
+
     @Put(':id')
     @UseInterceptors(FileInterceptor('file', storage))
     updateOne(@Param('id') id: string, @Body() payload: { employee: Employee }, @UploadedFile() file): Observable<any> {
-      return this.userService.findOne(Number(id)).pipe(
+      return this.userService.findOneID(Number(id)).pipe(
         catchError(() => {
           throw new NotFoundException(`Employee with ID ${id} not found`);
         }),

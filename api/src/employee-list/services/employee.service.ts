@@ -45,7 +45,7 @@ create(employee: Employee): Observable<Employee> {
    
 }
 
-    findOne(id: number): Observable<Employee> {
+    findOneID(id: number): Observable<Employee> {
         return from(this.userRepository.findOne({ where: { id } }));
     }
 
@@ -53,12 +53,16 @@ create(employee: Employee): Observable<Employee> {
         return from(this.userRepository.find({relations:['accessLogs']}));
     }
 
-    findByRfidTag(rfidtag: string): Observable<number | null> {
-      return from(this.userRepository.findOne({ where: { rfidtag }, select: ['id'] })).pipe(
-        map(employee => employee ? employee.id : null),
-      );
-    }
-    
+//NEW CODE 6-26-2024
+findByRfidTag(rfidTag: string): Observable<_dbemployee> {
+    return from(this.userRepository.findOne({ where: { rfidtag: rfidTag } })).pipe(
+      catchError(err => {
+        console.error('Error finding employee by RFID tag:', err);
+        return throwError(new BadRequestException('Error finding employee by RFID tag'));
+      })
+    );
+  }
+  
     logEmployeeAccess(rfidTag: string): Observable<any> {
         // console.log(rfidTag);
         return from(this.userRepository.findOne({ where: { rfidtag: rfidTag } })).pipe(
@@ -136,7 +140,7 @@ create(employee: Employee): Observable<Employee> {
   
     updateOne(id: number, employee: Employee): Observable<Employee> {
         return from(this.userRepository.update(id, employee)).pipe(
-            switchMap(() => this.findOne(id))
+            switchMap(() => this.findOneID(id))
         );
     }
 
