@@ -133,12 +133,13 @@ create(@Body() payload: { employee: Employee }, @UploadedFile() file): Observabl
 
   //THIS IS TO POST THE LOG ACCESS
   @Post('log-access')
-  logAccess(@Body('fingerprint') fingerprint: string): Promise<void> {
-    if (!fingerprint) {
-      throw new BadRequestException('Fingerprint is required');
+  logAccess(@Body() body: any): Promise<void> {
+    const { fingerprint, rfid } = body;
+    if (!fingerprint || !rfid) {
+      throw new BadRequestException('Fingerprint and RFID are required');
     }
 
-    return this.userService.logEmployeeAccess(fingerprint).toPromise();
+    return this.userService.logEmployeeAccess(fingerprint, rfid).toPromise();
   }
   
  

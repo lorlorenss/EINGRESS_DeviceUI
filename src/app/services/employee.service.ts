@@ -36,9 +36,9 @@ export class EmployeeService {
   //   return this.http.post<Employee>(loginEmployeeUrl, { fingerprint: rfidValue });
   // }
 
-  confirmEmployee(fingerprint: string): Observable<Employee> {
+  confirmEmployee(rfid: string,fingerprint: string): Observable<Employee> {
     const loginEmployeeUrl = `${this.apiUrl}/log-access`;
-    return this.http.post<Employee>(loginEmployeeUrl, { fingerprint }).pipe(
+    return this.http.post<Employee>(loginEmployeeUrl, { rfid, fingerprint }).pipe(
       catchError(err => {
         console.error('Error logging employee access:', err);
         return throwError('Error logging employee access');
@@ -51,7 +51,7 @@ export class EmployeeService {
     this.employeeSubject.next(employee);
   }
 
-  getRfid(): string | undefined {
-    return this.rfidNumber;
+  getRfid(): string  {
+    return this.rfidNumber || '';
   }
 }
