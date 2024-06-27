@@ -7,6 +7,12 @@ import { Employee } from '../interface/employee';
   providedIn: 'root'
 })
 export class EmployeeService {
+  rfidNumber: string | undefined;
+
+  setRfid(rfid: string) {
+    this.rfidNumber = rfid;
+  }
+
 
   private apiUrl = 'api/employee'
   private employeeSubject: BehaviorSubject<Employee | null> = new BehaviorSubject<Employee | null>(null);
@@ -43,5 +49,9 @@ export class EmployeeService {
 
   setEmployee(employee: Employee){
     this.employeeSubject.next(employee);
+  }
+
+  getRfid(): string | undefined {
+    return this.rfidNumber;
   }
 }

@@ -11,9 +11,15 @@ import { Employee } from '../interface/employee';
 export class ConfirmationComponent {
  @ViewChild('inputElement', { static: true }) inputElement!: ElementRef;
   isHidden: boolean = false;
-  rfidInput: string = '';
+  fingerInput: string = '';
   employee: Employee[] = [];
+  rfid: string | undefined= '';
+  
+  getRfid(){
+  this.rfid=  this.employeeService.getRfid();
+  }
 
+  
   constructor(private employeeService: EmployeeService, private router: Router) {
     // Focus on the input textbox when the component is initialized
     setTimeout(() => {
@@ -48,10 +54,10 @@ onFocus(): void{
 
 submitData(): void {
   // Perform data submission logic here
-  this.rfidInput = this.inputElement.nativeElement.value;
+  this.fingerInput = this.inputElement.nativeElement.value;
 
-  if (this.rfidInput.trim() !== '') {
-    if (this.rfidInput.trim() === '123') {
+  if (this.fingerInput.trim() !== '') {
+    if (this.fingerInput.trim() === '123') {
       // Special case: Navigate to 'Shutdown' after 3 seconds
       console.log('Shutdown initiated');
       setTimeout(() => {
@@ -59,7 +65,7 @@ submitData(): void {
       });
     } else {
       // Default case: Perform normal login process
-      this.employeeService.confirmEmployee(this.rfidInput).subscribe({
+      this.employeeService.confirmEmployee(this.fingerInput).subscribe({
         next: (response: any) => {
           this.router.navigateByUrl('afterLoginPage');
           this.employeeService.setEmployee(response);
@@ -86,6 +92,7 @@ submitData(): void {
   this.inputElement.nativeElement.value = '';
   this.inputElement.nativeElement.focus();
 }
+
 
 
 }

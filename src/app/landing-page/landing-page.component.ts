@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Component, ElementRef, ViewChild, HostListener, Output } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { Router } from '@angular/router';
 import { Employee } from '../interface/employee';
@@ -63,7 +63,7 @@ submitData(): void {
         next: (response: any) => {
           this.router.navigateByUrl('confirmation');
           this.employeeService.setEmployee(response);
-          
+          this.employeeService.setRfid(this.rfidInput); // Storing RFID for confirmation
         },
         error: (error: any) => {
           this.router.navigateByUrl('errorPage');
@@ -83,6 +83,7 @@ submitData(): void {
 
   this.inputElement.nativeElement.value = '';
   this.inputElement.nativeElement.focus();
+
 }
 
 
