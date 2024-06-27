@@ -64,15 +64,14 @@ findByRfidTag(rfidTag: string): Observable<_dbemployee> {
     );
   }
 
-    // logEmployeeAccess(rfidTag: string): Observable<any> {
-    //     // console.log(rfidTag);
-    //     return from(this.userRepository.findOne({ where: { rfidtag: rfidTag } })).pipe(
+   
+    // logEmployeeAccess(fingerprint: string, rfidTag: string): Observable<any> {
+    //     return from(this.userRepository.findOne({ where: { fingerprint } })).pipe(
     //         switchMap(employee => {
     //             if (!employee) {
     //                 throw new BadRequestException('Employee not found');
     //             }
 
-    //             // Update the last login date for the employee
     //             const currentDate = new Date();
     //             const options: Intl.DateTimeFormatOptions = {
     //                 year: 'numeric',
@@ -81,72 +80,73 @@ findByRfidTag(rfidTag: string): Observable<_dbemployee> {
     //                 hour: '2-digit',
     //                 minute: '2-digit',
     //                 second: '2-digit',
-    //                 hour12: false, // Use 24-hour format
-    //                 timeZone: 'Asia/Manila' // Set the time zone to Philippine time
+    //                 hour12: false,
+    //                 timeZone: 'Asia/Manila'
     //             };
     //             const dateAndTimeInPhilippineTime = currentDate.toLocaleString('en-PH', options);
     //             employee.lastlogdate = dateAndTimeInPhilippineTime;
 
-    //             // Save the updated employee
     //             return from(this.userRepository.save(employee)).pipe(
-    //                 switchMap(() => {
-    //                     // Log the access in AccessLogService
-    //                     // console.log(rfidTag, "This is wrong");
-    //                     return this.accessLogService.logAccess(rfidTag).pipe(
-    //                         map(() => ({ fullname: employee.fullname, role: employee.role, profileImage: employee.profileImage }))
-    //                       );
-    //                 })
+    //                 switchMap(() => this.accessLogService.logAccess(fingerprint,rfidTag)),
+    //                 map(() => ({
+    //                     fullname: employee.fullname,
+    //                     role: employee.role,
+    //                     profileImage: employee.profileImage
+    //                 }))
     //             );
     //         }),
     //         catchError(error => {
     //             if (error instanceof BadRequestException) {
-    //                 // Handle employee not found error here
     //                 console.error('Employee not found:', error.message);
     //             }
-    //             // Propagate the error
     //             return throwError(error);
     //         })
     //     );
     // }
 
-    logEmployeeAccess(fingerprint: string): Observable<any> {
+    logEmployeeAccess(fingerprint: string, rfid: string): Observable<any> {
         return from(this.userRepository.findOne({ where: { fingerprint } })).pipe(
-            switchMap(employee => {
-                if (!employee) {
-                    throw new BadRequestException('Employee not found');
-                }
-
-                const currentDate = new Date();
-                const options: Intl.DateTimeFormatOptions = {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: false,
-                    timeZone: 'Asia/Manila'
-                };
-                const dateAndTimeInPhilippineTime = currentDate.toLocaleString('en-PH', options);
-                employee.lastlogdate = dateAndTimeInPhilippineTime;
-
-                return from(this.userRepository.save(employee)).pipe(
-                    switchMap(() => this.accessLogService.logAccess(fingerprint)),
-                    map(() => ({
-                        fullname: employee.fullname,
-                        role: employee.role,
-                        profileImage: employee.profileImage
-                    }))
-                );
-            }),
-            catchError(error => {
-                if (error instanceof BadRequestException) {
-                    console.error('Employee not found:', error.message);
-                }
-                return throwError(error);
-            })
+          switchMap((employee: _dbemployee) => {
+            if (!employee) {
+              throw new BadRequestException('Employee not found');
+            }
+    
+            // Check if the employee's RFID matches the stored RFID
+            if (employee.rfidtag !== rfid) {
+              throw new BadRequestException('RFID does not match');
+            }
+    
+            const currentDate = new Date();
+            const options: Intl.DateTimeFormatOptions = {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: false,
+              timeZone: 'Asia/Manila',
+            };
+            const dateAndTimeInPhilippineTime = currentDate.toLocaleString('en-PH', options);
+            employee.lastlogdate = dateAndTimeInPhilippineTime;
+    
+            return from(this.userRepository.save(employee)).pipe(
+              switchMap(() => this.accessLogService.logAccess(fingerprint)),
+              map(() => ({
+                fullname: employee.fullname,
+                role: employee.role,
+                profileImage: employee.profileImage,
+              })),
+            );
+          }),
+          catchError((error) => {
+            if (error instanceof BadRequestException) {
+              console.error('Error logging employee access:', error.message);
+            }
+            return throwError(error);
+          }),
         );
-    }
+      }
   
      
       getOnlyDate(datetime: string): string {

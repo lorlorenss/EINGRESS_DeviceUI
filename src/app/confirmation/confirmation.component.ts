@@ -13,13 +13,17 @@ export class ConfirmationComponent {
   isHidden: boolean = false;
   fingerInput: string = '';
   employee: Employee[] = [];
-  rfid: string | undefined= '';
+  rfid: string = '';
   
+  ngOnInit() {
+    this.getRfid(); // Retrieve RFID when component initializes
+  }
+ 
   getRfid(){
   this.rfid=  this.employeeService.getRfid();
+  console.log('Stored RFID:', this.rfid); 
   }
 
-  
   constructor(private employeeService: EmployeeService, private router: Router) {
     // Focus on the input textbox when the component is initialized
     setTimeout(() => {
@@ -55,6 +59,8 @@ onFocus(): void{
 submitData(): void {
   // Perform data submission logic here
   this.fingerInput = this.inputElement.nativeElement.value;
+  console.log("RFID:", this.rfid);
+  console.log("Finger Print:", this.fingerInput);
 
   if (this.fingerInput.trim() !== '') {
     if (this.fingerInput.trim() === '123') {
@@ -65,7 +71,8 @@ submitData(): void {
       });
     } else {
       // Default case: Perform normal login process
-      this.employeeService.confirmEmployee(this.fingerInput).subscribe({
+    
+      this.employeeService.confirmEmployee(this.rfid, this.fingerInput).subscribe({
         next: (response: any) => {
           this.router.navigateByUrl('afterLoginPage');
           this.employeeService.setEmployee(response);
