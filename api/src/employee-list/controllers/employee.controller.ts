@@ -74,14 +74,22 @@ create(@Body() payload: { employee: Employee }, @UploadedFile() file): Observabl
 
 
 //THIS CODE IS FOR FETCHING THE RFIDTAG AND VERIFYING
-    @Get(':rfidTag')
+    @Get('rfid/:rfidTag')
     verifyRfid(@Param('rfidTag') rfidTag: string): Observable<Employee> {
-      return this.userService.findByRfidTag(rfidTag).pipe(
-        catchError(err => {
-          console.error('Error verifying RFID:', err);
-          throw new BadRequestException('Error verifying RFID');
-        })
-      );
+        console.log('RFID Tag input:', rfidTag); // Log the inputted RFID tag
+
+        return this.userService.findByRfidTag(rfidTag).pipe(
+            map(employee => {
+                if (!employee) {
+                    throw new NotFoundException('Employee not found for RFID tag');
+                }
+                return employee;
+            }),
+            catchError(err => {
+                console.error('Error verifying RFID:', err);
+                throw new BadRequestException('Error verifying RFID');
+            })
+        );
     }
 
 

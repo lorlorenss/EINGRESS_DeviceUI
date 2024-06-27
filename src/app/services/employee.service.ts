@@ -22,7 +22,7 @@ export class EmployeeService {
 
 
   verifyRfid(rfidTag: string): Observable<Employee> {
-    const url = `${this.apiUrl}/${rfidTag}`;
+    const url = `${this.apiUrl}/rfid/${rfidTag}`;
     return this.http.get<Employee>(url).pipe(
       catchError(err => {
         console.error('Error verifying RFID:', err);

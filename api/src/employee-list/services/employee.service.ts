@@ -55,6 +55,7 @@ create(employee: Employee): Observable<Employee> {
 
 //NEW CODE 6-26-2024 
 findByRfidTag(rfidTag: string): Observable<_dbemployee> {
+    console.log('RFID Tag input:', rfidTag);
     return from(this.userRepository.findOne({ where: { rfidtag: rfidTag } })).pipe(
       catchError(err => {
         console.error('Error finding employee by RFID tag:', err);
