@@ -9,13 +9,17 @@ import { AfterLoginComponent } from './after-login/after-login.component';
 import { AppComponent } from './app.component';
 import { ShutdownComponent } from './shutdown/shutdown.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { VerificationComponent } from './verification/verification.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AfterLoginComponent,
     ShutdownComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    VerificationComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,

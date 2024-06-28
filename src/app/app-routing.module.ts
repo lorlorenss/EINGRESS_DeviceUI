@@ -5,6 +5,8 @@ import { AfterLoginComponent } from './after-login/after-login.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { ShutdownComponent } from './shutdown/shutdown.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { VerificationComponent } from './verification/verification.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landingPage', pathMatch: 'full'},
@@ -27,6 +29,14 @@ const routes: Routes = [
   {
     path: 'confirmation',
     component: ConfirmationComponent
+  },
+  {
+    path: 'verification',
+    component: VerificationComponent
+  },
+  {
+    path: 'registration',
+    component: RegistrationComponent
   }
 ];
 @NgModule({

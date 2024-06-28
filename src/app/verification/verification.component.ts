@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { Employee } from '../interface/employee';
 
 @Component({
-  selector: 'app-landing-page',
-  templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.css']
+  selector: 'app-verification',
+  templateUrl: './verification.component.html',
+  styleUrls: ['./verification.component.css']
 })
-export class LandingPageComponent {
+export class VerificationComponent {
   @ViewChild('inputElement', { static: true }) inputElement!: ElementRef;
   isHidden: boolean = false;
   rfidInput: string = '';
@@ -66,8 +66,7 @@ submitData(): void {
           this.employeeService.setRfid(this.rfidInput); // Storing RFID for confirmation
         },
         error: (error: any) => {
-          this.router.navigateByUrl('verification');
-          //this.router.navigateByUrl('errorPage');
+          this.router.navigateByUrl('errorPage');
           console.error('Error logging employee access:', error);
           if (error.status === 400 && error.error && error.error.message === 'Employee not found') {
             console.error('Employee not found.');
@@ -86,6 +85,5 @@ submitData(): void {
   this.inputElement.nativeElement.focus();
 
 }
-
 
 }
