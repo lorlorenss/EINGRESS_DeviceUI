@@ -11,6 +11,8 @@ import { ShutdownComponent } from './shutdown/shutdown.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { VerificationComponent } from './verification/verification.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { NotMatchComponent } from './not-match/not-match.component';
+import { NotAdminComponent } from './not-admin/not-admin.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { RegistrationComponent } from './registration/registration.component';
     ShutdownComponent,
     ConfirmationComponent,
     VerificationComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    NotMatchComponent,
+    NotAdminComponent
   ],
   imports: [
     BrowserModule,

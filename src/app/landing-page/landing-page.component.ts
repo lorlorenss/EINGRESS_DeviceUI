@@ -66,8 +66,7 @@ submitData(): void {
           this.employeeService.setRfid(this.rfidInput); // Storing RFID for confirmation
         },
         error: (error: any) => {
-          this.router.navigateByUrl('verification');
-          //this.router.navigateByUrl('errorPage');
+          this.router.navigateByUrl('errorPage');
           console.error('Error logging employee access:', error);
           if (error.status === 400 && error.error && error.error.message === 'Employee not found') {
             console.error('Employee not found.');
