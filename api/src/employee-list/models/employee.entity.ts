@@ -27,19 +27,21 @@ export class _dbemployee {
   @Column()
   lastlogdate: string;
 
-  @Column({nullable: true })
+  @Column({ nullable: true })
   profileImage: string;
 
   @Column({ nullable: true })
   rfidtag: string;
 
-  @Column({ nullable: true , unique: true})
+
+  // This should be unique kay mao ang naa sa database
+  @Column({ nullable: true, unique: true })
   fingerprint: string;
 
   // @Column({ nullable: true })
   // profileImagePath?: string;
 
-  @OneToMany(() => _dbaccesslog, accessLog => accessLog.employee)
+  @OneToMany(() => _dbaccesslog, (accessLog) => accessLog.employee)
   accessLogs: _dbaccesslog[]; // One-to-many relationship with AccessLog
 
   

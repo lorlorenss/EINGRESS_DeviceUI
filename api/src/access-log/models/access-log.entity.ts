@@ -21,7 +21,7 @@ export class _dbaccesslog {
   @Column()
   roleAtAccess: string; // Role of the employee at the time of access
 
-  
-  @Column ()
+  //NULLABLE LANG SA NI KAY WALAY SULOD ANG ACCESSLOG
+  @Column ({nullable:true})
   fingerprint:string;
 }
