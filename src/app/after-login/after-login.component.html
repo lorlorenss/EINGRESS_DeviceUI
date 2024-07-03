@@ -12,8 +12,9 @@
         <div class="content">
             <div class="greeting">{{ greetings }}</div>
             <div class="photoholder">
-            <img class="displayPhoto" src="http://192.168.42.144:3000/api/employee/profile-image/{{data.profileImage}}" alt="profilephoto">
-            </div>
+            <img class="displayPhoto" src="http://192.168.42.64:3000/api/employee/profile-image/{{data.profileImage}}" alt="profilephoto">
+            <!-- <img class="displayPhoto" src="http://localhost:3000/api/employee/profile-image/{{data.profileImage}}" alt="profilephoto"> -->
+        </div>
             <div class="name">{{ data.fullname }}</div>
             <div class="date">{{ data.role }}</div>
         </div>
