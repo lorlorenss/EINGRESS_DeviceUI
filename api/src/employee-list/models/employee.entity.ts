@@ -33,7 +33,7 @@ export class _dbemployee {
   @Column({ nullable: true })
   rfidtag: string;
 
-  @Column({ nullable: true , unique: true})
+  @Column({ nullable: true })
   fingerprint: string;
 
   // @Column({ nullable: true })
