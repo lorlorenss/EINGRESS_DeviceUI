@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild, HostListener, Output } from '@angular
 import { EmployeeService } from '../services/employee.service';
 import { Router } from '@angular/router';
 import { Employee } from '../interface/employee';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-landing-page',
@@ -61,21 +62,41 @@ submitData(): void {
       // Default case: Perform normal login process
       this.employeeService.verifyRfid(this.rfidInput).subscribe({
         next: (response: any) => {
+          console.log('RFID verified:', response);
+          // Handle successful response
           this.router.navigateByUrl('confirmation');
+          // Example: Set employee data in a service for later use
           this.employeeService.setEmployee(response);
-          this.employeeService.setRfid(this.rfidInput); // Storing RFID for confirmation
-        },
-        error: (error: any) => {
-          this.router.navigateByUrl('errorPage');
-          console.error('Error logging employee access:', error);
-          if (error.status === 400 && error.error && error.error.message === 'Employee not found') {
-            console.error('Employee not found.');
-          } else {
-            console.error('An error occurred while logging employee access.');
-          }
+          this.employeeService.setRfid(this.rfidInput);
           setTimeout(() => {
             this.router.navigateByUrl('landingPage');
-          }, 3000); // Return to landing page after 3 seconds
+          }, 10000); // 10 seconds delay
+        },
+        error: (errorMessage: string) => {
+          console.error('Error logging employee access:', errorMessage);
+  
+          // Check error conditions and route accordingly
+          if (errorMessage === 'Employee not found.') {
+            this.router.navigateByUrl('errorPage');
+            setTimeout(() => {
+              this.router.navigateByUrl('landingPage');
+            }, 3000); // 30 seconds delay
+          } else if (errorMessage === 'Employee has no fingerprint.') {
+            this.router.navigateByUrl('verification');
+            setTimeout(() => {
+              this.router.navigateByUrl('landingPage');
+            }, 30000); // 30 seconds delay
+          } else {
+            this.router.navigateByUrl('errorPage'); // Default error page for other cases
+            setTimeout(() => {
+              this.router.navigateByUrl('landingPage');
+            }, 3000); // 30 seconds delay
+          }
+  
+          // Return to landing page after 3 seconds
+          // setTimeout(() => {
+          //   this.router.navigateByUrl('landingPage');
+          // }, 3000); // Return to landing page after 3 seconds
         }
       });
     }
