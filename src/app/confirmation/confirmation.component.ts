@@ -81,7 +81,7 @@ submitData(): void {
           }, 10000); // Return to landing page after 10 seconds
         },
         error: (error: any) => {
-          this.router.navigateByUrl('notMatch');
+          this.router.navigateByUrl('errorPage');
           console.error('Error logging employee access:', error);
           if (error.status === 400 && error.error && error.error.message === 'Employee not found') {
             console.error('Employee not found.');
