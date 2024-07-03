@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable, BehaviorSubject, catchError, throwError, map } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, BehaviorSubject, catchError, throwError } from 'rxjs';
 import { Employee } from '../interface/employee';
 
 @Injectable({
@@ -21,39 +21,12 @@ export class EmployeeService {
   constructor(private http: HttpClient) { }
 
 
-  // verifyRfid(rfidTag: string): Observable<Employee> {
-  //   const url = `${this.apiUrl}/rfid/${rfidTag}`;
-  //   return this.http.get<Employee>(url).pipe(
-  //     catchError(err => {
-  //       console.error('Error verifying RFID:', err);
-  //       return throwError('');
-  //     })
-  //   );
-  // }
-
-  verifyRfid(rfidInput: string): Observable<any> {
-    const url = `${this.apiUrl}/rfid/${rfidInput}`;
-    return this.http.get<any>(url).pipe(
-      map((response: any) => {
-        // Handle successful response
-        console.log('RFID verified:', response);
-        // Example: Store employee and RFID data in service for later use
-        this.setEmployee(response);
-        this.setRfid(rfidInput);
-        return response; // Pass data to the subscriber
-      }),
-      catchError((error: HttpErrorResponse) => {
-        // Log the error for debugging
-        console.error('Error verifying RFID:', error);
-
-        // Handle different types of errors based on status code and message
-        if (error.status === 404 && error.error.message === 'Employee not found for RFID tag') {
-          return throwError('Employee not found.'); // Pass custom error message to the subscriber
-        } else if (error.status === 400 && error.error.message === 'Employee has no fingerprint') {
-          return throwError('Employee has no fingerprint.'); // Pass custom error message to the subscriber
-        } else {
-          return throwError('An error occurred.'); // Pass generic error message to the subscriber
-        }
+  verifyRfid(rfidTag: string): Observable<Employee> {
+    const url = `${this.apiUrl}/rfid/${rfidTag}`;
+    return this.http.get<Employee>(url).pipe(
+      catchError(err => {
+        console.error('Error verifying RFID:', err);
+        return throwError('Error verifying RFID');
       })
     );
   }

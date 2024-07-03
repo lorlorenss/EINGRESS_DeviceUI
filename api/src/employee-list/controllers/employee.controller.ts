@@ -83,19 +83,19 @@ create(@Body() payload: { employee: Employee }, @UploadedFile() file): Observabl
                 if (!employee) {
                     throw new NotFoundException('Employee not found for RFID tag');
                 }
-                // Check if the employee has stored fingerprint on the database
+                 // Check if the employee's HAS STORED FINGERPRINT ON THE DATABASE
                 if (!employee.fingerprint) {
-                    throw new BadRequestException('Employee has no fingerprint');
+                  throw new BadRequestException('Employee has no fingerprint');
                 }
+                
                 return employee;
             }),
             catchError(err => {
                 console.error('Error verifying RFID:', err);
-                throw err; // Re-throw the caught error to be handled by the caller
+                throw new BadRequestException('Error verifying RFID');
             })
         );
     }
-
 
 
     @Put(':id')
