@@ -13,6 +13,7 @@ import { VerificationComponent } from './verification/verification.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { NotMatchComponent } from './not-match/not-match.component';
 import { NotAdminComponent } from './not-admin/not-admin.component';
+import { InstructionComponent } from './instruction/instruction.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NotAdminComponent } from './not-admin/not-admin.component';
     VerificationComponent,
     RegistrationComponent,
     NotMatchComponent,
-    NotAdminComponent
+    NotAdminComponent,
+    InstructionComponent
   ],
   imports: [
     BrowserModule,

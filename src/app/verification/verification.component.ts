@@ -64,7 +64,7 @@ export class VerificationComponent {
         setTimeout(() => {
           this.router.navigateByUrl('shutdown');
         });
-      } else if (this.rfidInput == '12345') {
+      } else if (this.rfidInput == '0909314995') {
         this.router.navigateByUrl('registration');
       }
       else{

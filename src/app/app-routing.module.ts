@@ -9,6 +9,7 @@ import { VerificationComponent } from './verification/verification.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { NotMatchComponent } from './not-match/not-match.component';
 import { NotAdminComponent } from './not-admin/not-admin.component';
+import { InstructionComponent } from './instruction/instruction.component';
 const routes: Routes = [
   { path: '', redirectTo: 'landingPage', pathMatch: 'full'},
   { 
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'notAdmin',
     component: NotAdminComponent
+  },
+  {
+    path: 'instruction',
+    component: InstructionComponent
   }
 ];
 @NgModule({

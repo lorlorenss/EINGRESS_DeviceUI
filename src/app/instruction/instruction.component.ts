@@ -1,16 +1,15 @@
 import { Component, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
-
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+  selector: 'app-instruction',
+  templateUrl: './instruction.component.html',
+  styleUrls: ['./instruction.component.css']
 })
-export class RegistrationComponent {
- @ViewChild('inputElement', { static: true }) inputElement!: ElementRef;
+export class InstructionComponent {
+  @ViewChild('inputElement', { static: true }) inputElement!: ElementRef;
   isHidden: boolean = false;
-  instruction: string = 'Wait for instructions';
+  instruction: string = 'Instructions';
 
   constructor(private router: Router) {
     // Focus on the input textbox when the component is initialized
@@ -48,12 +47,12 @@ submitData(): void {
   // Perform data submission logic here
   this.instruction = this.inputElement.nativeElement.value;
 
-  if (this.instruction.includes("Wait for instructions")) {
-      this.router.navigateByUrl('instruction');
-    
+  if (this.instruction.includes("ID:")) {
+    setTimeout(() => {
+      this.router.navigateByUrl('landingPage');
+    }, 5000); // 5000 milliseconds = 5 seconds
   }
   this.inputElement.nativeElement.value = '';
   this.inputElement.nativeElement.focus();
 }
-
 }
