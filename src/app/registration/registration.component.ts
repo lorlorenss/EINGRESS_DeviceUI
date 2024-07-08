@@ -16,7 +16,15 @@ export class RegistrationComponent {
     // Focus on the input textbox when the component is initialized
     setTimeout(() => {
       this.inputElement.nativeElement.focus();
+      
     });
+    
+    if (this.instruction.includes("Wait for instructions")) {
+      setTimeout(() => {
+        this.router.navigateByUrl('instruction'); 
+      }, 1000);
+      
+  }
   }
 
   @HostListener('document:click', ['$event'])
@@ -48,10 +56,7 @@ submitData(): void {
   // Perform data submission logic here
   this.instruction = this.inputElement.nativeElement.value;
 
-  if (this.instruction.includes("Wait for instructions")) {
-      this.router.navigateByUrl('instruction');
-    
-  }
+  
   this.inputElement.nativeElement.value = '';
   this.inputElement.nativeElement.focus();
 }
