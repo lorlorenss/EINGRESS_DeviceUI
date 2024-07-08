@@ -19,5 +19,4 @@ steps:
     npm install -g @angular/cli
     npm install
     npm audit fix --force
-    ng build --prod
   displayName: 'npm install and build'
