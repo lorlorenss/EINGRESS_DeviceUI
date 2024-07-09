@@ -52,11 +52,6 @@ submitData(): void {
       this.router.navigateByUrl('landingPage');
     }, 5000); // 5000 milliseconds = 5 seconds
   }
-  if (this.instruction.includes("Returning")) {
-    setTimeout(() => {
-      this.router.navigateByUrl('landingPage');
-    });
-  }
   this.inputElement.nativeElement.value = '';
   this.inputElement.nativeElement.focus();
 }

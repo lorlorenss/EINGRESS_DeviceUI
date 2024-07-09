@@ -14,6 +14,7 @@ export class ConfirmationComponent {
   fingerInput: string = '';
   employee: Employee[] = [];
   rfid: string = '';
+
   
   ngOnInit() {
     this.getRfid(); // Retrieve RFID when component initializes
@@ -69,7 +70,14 @@ submitData(): void {
       setTimeout(() => {
         this.router.navigateByUrl('shutdown');
       });
-    } else {
+    } 
+    else if (this.fingerInput.trim() === 'Timeout'){
+      this.router.navigateByUrl('timeout');
+      setTimeout(() => {
+        this.router.navigateByUrl('landingPage');
+      }, 5000); 
+    }
+    else {
       // Default case: Perform normal login process
     
       this.employeeService.confirmEmployee(this.rfid, this.fingerInput).subscribe({
