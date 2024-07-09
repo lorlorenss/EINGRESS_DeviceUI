@@ -1,15 +1,14 @@
-import { Component, ElementRef, ViewChild, HostListener, Output } from '@angular/core';
+import { Component, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { Router } from '@angular/router';
 import { Employee } from '../interface/employee';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-landing-page',
-  templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.css']
+  selector: 'app-shutdown-page',
+  templateUrl: './shutdown.component.html',
+  styleUrls: ['./shutdown.component.css']
 })
-export class LandingPageComponent {
+export class ShutdownComponent {
   @ViewChild('inputElement', { static: true }) inputElement!: ElementRef;
   isHidden: boolean = false;
   rfidInput: string = '';
@@ -56,47 +55,29 @@ submitData(): void {
       // Special case: Navigate to 'Shutdown' after 3 seconds
       console.log('Shutdown initiated');
       setTimeout(() => {
-        this.router.navigateByUrl('shutdown');
+        this.router.navigateByUrl('landingPage');
       });
     } else {
       // Default case: Perform normal login process
       this.employeeService.verifyRfid(this.rfidInput).subscribe({
         next: (response: any) => {
-          console.log('RFID verified:', response);
-          // Handle successful response
-          this.router.navigateByUrl('confirmation');
-          // Example: Set employee data in a service for later use
+          this.router.navigateByUrl('afterLoginPage');
           this.employeeService.setEmployee(response);
-          this.employeeService.setRfid(this.rfidInput);
-          // setTimeout(() => {
-          //   this.router.navigateByUrl('landingPage');
-          // }, 10000); // 10 seconds delay
+          setTimeout(() => {
+            this.router.navigateByUrl('landingPage');
+          }, 10000); // Return to landing page after 10 seconds
         },
-        error: (errorMessage: string) => {
-          console.error('Error logging employee access:', errorMessage);
-  
-          // Check error conditions and route accordingly
-          if (errorMessage === 'Employee not found.') {
-            this.router.navigateByUrl('errorPage');
-            setTimeout(() => {
-              this.router.navigateByUrl('landingPage');
-            }, 3000); // 30 seconds delay
-          } else if (errorMessage === 'Employee has no fingerprint.') {
-            this.router.navigateByUrl('verification');
-            // setTimeout(() => {
-            //   this.router.navigateByUrl('landingPage');
-            // }, 30000); //
+        error: (error: any) => {
+          this.router.navigateByUrl('errorPage');
+          console.error('Error logging employee access:', error);
+          if (error.status === 400 && error.error && error.error.message === 'Employee not found') {
+            console.error('Employee not found.');
           } else {
-            this.router.navigateByUrl('errorPage'); // Default error page for other cases
-            setTimeout(() => {
-              this.router.navigateByUrl('landingPage');
-            }, 3000); //
+            console.error('An error occurred while logging employee access.');
           }
-  
-          // Return to landing page after 3 seconds
-          // setTimeout(() => {
-          //   this.router.navigateByUrl('landingPage');
-          // }, 3000); // Return to landing page after 3 seconds
+          setTimeout(() => {
+            this.router.navigateByUrl('landingPage');
+          }, 3000); // Return to landing page after 3 seconds
         }
       });
     }
@@ -104,8 +85,6 @@ submitData(): void {
 
   this.inputElement.nativeElement.value = '';
   this.inputElement.nativeElement.focus();
-
 }
-
 
 }
