@@ -10,6 +10,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { NotMatchComponent } from './not-match/not-match.component';
 import { NotAdminComponent } from './not-admin/not-admin.component';
 import { InstructionComponent } from './instruction/instruction.component';
+import { TimeoutComponent } from './timeout/timeout.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'landingPage', pathMatch: 'full'},
   { 
@@ -51,6 +53,10 @@ const routes: Routes = [
   {
     path: 'instruction',
     component: InstructionComponent
+  },
+  {
+    path: 'timeout',
+    component: TimeoutComponent
   }
 ];
 @NgModule({

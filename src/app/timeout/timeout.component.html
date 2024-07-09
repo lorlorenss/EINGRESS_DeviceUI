@@ -1,0 +1,18 @@
+<div class="main-container">
+    <div class="upper-container">
+            <img src="/assets/images/jairo-logo.png" alt="">
+            <p>Jairosoft EINGRESS</p>    
+    </div>
+
+    <div class="lower-container">
+        <div class="content">
+            <h1>Timeout Error</h1>
+            <h2>You didn't scan your fingerprint on time</h2>
+            <h2>It only last 5 seconds</h2>
+            <input type="text" class="hidden-input" [hidden]="isHidden" #inputElement
+           (focus)="onFocus()" (keyup.enter)="submitData()">
+        </div>
+    </div>
+    <img class="JairoBot" src="/assets/images/JairoBot.png" alt="">
+</div> 
+
