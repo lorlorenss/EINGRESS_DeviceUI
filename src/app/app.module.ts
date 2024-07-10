@@ -15,6 +15,7 @@ import { NotMatchComponent } from './not-match/not-match.component';
 import { NotAdminComponent } from './not-admin/not-admin.component';
 import { InstructionComponent } from './instruction/instruction.component';
 import { TimeoutComponent } from './timeout/timeout.component';
+import { DeleteComponent } from './delete/delete.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { TimeoutComponent } from './timeout/timeout.component';
     NotMatchComponent,
     NotAdminComponent,
     InstructionComponent,
-    TimeoutComponent
+    TimeoutComponent,
+    DeleteComponent
   ],
   imports: [
     BrowserModule,

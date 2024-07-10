@@ -7,7 +7,20 @@ import { Employee } from '../interface/employee';
   providedIn: 'root'
 })
 export class EmployeeService {
+
+  specialRFID = [
+    {
+      admin: "0909314995",
+      shutdown: "0915014675",
+    }
+
+  ];
+
+  ojtAccess = ["123", "1234", "123124", "51249123", "1293851"]
+
+
   rfidNumber: string | undefined;
+  fingerprintUI!: string;
 
   setRfid(rfid: string) {
     this.rfidNumber = rfid;
@@ -40,6 +53,7 @@ export class EmployeeService {
         // Example: Store employee and RFID data in service for later use
         this.setEmployee(response);
         this.setRfid(rfidInput);
+        this.fingerprintUI = response.fingerprint; // Store the fingerprint
         return response; // Pass data to the subscriber
       }),
       catchError((error: HttpErrorResponse) => {
@@ -63,7 +77,7 @@ export class EmployeeService {
   //   return this.http.post<Employee>(loginEmployeeUrl, { fingerprint: rfidValue });
   // }
 
-  confirmEmployee(rfid: string,fingerprint: string): Observable<Employee> {
+  confirmEmployee(rfid: string, fingerprint: string): Observable<Employee> {
     const loginEmployeeUrl = `${this.apiUrl}/log-access`;
     return this.http.post<Employee>(loginEmployeeUrl, { rfid, fingerprint }).pipe(
       catchError(err => {
@@ -74,11 +88,11 @@ export class EmployeeService {
   }
 
 
-  setEmployee(employee: Employee){
+  setEmployee(employee: Employee) {
     this.employeeSubject.next(employee);
   }
 
-  getRfid(): string  {
+  getRfid(): string {
     return this.rfidNumber || '';
   }
 }
