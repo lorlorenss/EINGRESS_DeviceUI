@@ -61,7 +61,7 @@ export class DeleteComponent {
         },3000);
     }
     else if (this.instruction.includes('Failed')){
-      this.instruction = "Fingerprint not deleted on the sensor"
+      this.instruction = "Fingerprint already deleted in sensor"
       setTimeout(() => {
         this.router.navigateByUrl('landingPage');
       },3000);
