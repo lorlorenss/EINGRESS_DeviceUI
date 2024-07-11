@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject, catchError, throwError, map } from 'rxjs';
 import { Employee } from '../interface/employee';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class EmployeeService {
   }
 
 
-  private apiUrl = 'api/employee'
+  private apiUrl = `${environment.baseURL}api/employee`
   private employeeSubject: BehaviorSubject<Employee | null> = new BehaviorSubject<Employee | null>(null);
   public employee$: Observable<Employee | null> = this.employeeSubject.asObservable();
 
