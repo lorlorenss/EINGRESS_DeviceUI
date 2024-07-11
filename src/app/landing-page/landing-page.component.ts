@@ -14,6 +14,7 @@ export class LandingPageComponent {
   isHidden: boolean = false;
   rfidInput: string = '';
   employee: Employee[] = [];
+  
 
   constructor(private employeeService: EmployeeService, private router: Router) {
     // Focus on the input textbox when the component is initialized
@@ -50,15 +51,25 @@ onFocus(): void{
 submitData(): void {
   // Perform data submission logic here
   this.rfidInput = this.inputElement.nativeElement.value;
+  const adminRfid = this.employeeService.specialRFID[0].admin;
+  const shutdownRfid = this.employeeService.specialRFID[0].shutdown;
+
 
   if (this.rfidInput.trim() !== '') {
-    if (this.rfidInput.trim() === '123') {
+    if (this.rfidInput.trim() === shutdownRfid) {
       // Special case: Navigate to 'Shutdown' after 3 seconds
       console.log('Shutdown initiated');
       setTimeout(() => {
         this.router.navigateByUrl('shutdown');
       });
-    } else {
+    } 
+    else if(this.employeeService.ojtAccess.includes(this.rfidInput.trim())){
+      
+    }
+    else if (this.rfidInput == adminRfid) {
+      this.router.navigateByUrl('delete');
+    }
+    else {
       // Default case: Perform normal login process
       this.employeeService.verifyRfid(this.rfidInput).subscribe({
         next: (response: any) => {
