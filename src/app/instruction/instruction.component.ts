@@ -57,6 +57,11 @@ submitData(): void {
       this.router.navigateByUrl('landingPage');
     }, 5000); // 5000 milliseconds = 5 seconds
   }
+  else if (this.instruction.includes("Failed to capture")) {
+    setTimeout(() => {
+      this.router.navigateByUrl('landingPage');
+    }, 3000);
+  }
   this.inputElement.nativeElement.value = '';
   this.inputElement.nativeElement.focus();
 }
