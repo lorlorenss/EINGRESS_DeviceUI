@@ -16,6 +16,7 @@ import { NotAdminComponent } from './not-admin/not-admin.component';
 import { InstructionComponent } from './instruction/instruction.component';
 import { TimeoutComponent } from './timeout/timeout.component';
 import { DeleteComponent } from './delete/delete.component';
+import { EmergencyComponent } from './emergency/emergency.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { DeleteComponent } from './delete/delete.component';
     NotAdminComponent,
     InstructionComponent,
     TimeoutComponent,
-    DeleteComponent
+    DeleteComponent,
+    EmergencyComponent
   ],
   imports: [
     BrowserModule,
