@@ -9,6 +9,8 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class EmployeeService {
 
+  emergencyText: string = "emergency";
+
   specialRFID = [
     {
       admin: "0909314995",
