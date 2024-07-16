@@ -1,6 +1,8 @@
-import { Component, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Component, ElementRef, ViewChild, HostListener, Output } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { Router } from '@angular/router';
+import { Employee } from '../interface/employee';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-landing-page',
@@ -11,6 +13,8 @@ export class LandingPageComponent {
   @ViewChild('inputElement', { static: true }) inputElement!: ElementRef;
   isHidden: boolean = false;
   rfidInput: string = '';
+  employee: Employee[] = [];
+  
 
   constructor(private employeeService: EmployeeService, private router: Router) {
     // Focus on the input textbox when the component is initialized
@@ -47,41 +51,72 @@ onFocus(): void{
 submitData(): void {
   // Perform data submission logic here
   this.rfidInput = this.inputElement.nativeElement.value;
+  const adminRfid = this.employeeService.specialRFID[0].admin;
+  const shutdownRfid = this.employeeService.specialRFID[0].shutdown;
+
+
+  if (this.rfidInput.trim() !== '') {
+    if (this.rfidInput.trim() === shutdownRfid) {
+      // Special case: Navigate to 'Shutdown' after 3 seconds
+      console.log('Shutdown initiated');
+      setTimeout(() => {
+        this.router.navigateByUrl('shutdown');
+      });
+    } 
+    else if(this.employeeService.ojtAccess.includes(this.rfidInput.trim())){
+      
+    }
+    else if (this.rfidInput == adminRfid) {
+      this.router.navigateByUrl('delete');
+    }
+    else {
+      // Default case: Perform normal login process
+      this.employeeService.verifyRfid(this.rfidInput).subscribe({
+        next: (response: any) => {
+          console.log('RFID verified:', response);
+          // Handle successful response
+          this.router.navigateByUrl('confirmation');
+          // Example: Set employee data in a service for later use
+          this.employeeService.setEmployee(response);
+          this.employeeService.setRfid(this.rfidInput);
+          // setTimeout(() => {
+          //   this.router.navigateByUrl('landingPage');
+          // }, 10000); // 10 seconds delay
+        },
+        error: (errorMessage: string) => {
+          console.error('Error logging employee access:', errorMessage);
   
-  if(this.rfidInput.trim() !== ''){
-    this.employeeService.loginEmployee(this.rfidInput).subscribe({
-      next: (response: any) => {
-        this.router.navigateByUrl('afterLoginPage');
-        console.log('Employee access logged successfully:', response);
-
-        setTimeout(() => {
-          this.router.navigateByUrl('landingPage');
-        }, 5000); 
-
-      },
-      error: (error:any) => {
-        this.router.navigateByUrl('errorPage');
-        console.error('Error logging employee access:', error);
-        // Check if the error is due to employee not found
-        if (error.status === 400 && error.error && error.error.message === 'Employee not found') {
-          // Handle employee not found error here, e.g., show a message to the user
-          console.error('Employee not found.');
-        } else {
-          // Handle other errors, e.g., show a generic error message to the user
-          console.error('An error occurred while logging employee access.');
+          // Check error conditions and route accordingly
+          if (errorMessage === 'Employee not found.') {
+            this.router.navigateByUrl('errorPage');
+            setTimeout(() => {
+              this.router.navigateByUrl('landingPage');
+            }, 3000); // 30 seconds delay
+          } else if (errorMessage === 'Employee has no fingerprint.') {
+            this.router.navigateByUrl('verification');
+            // setTimeout(() => {
+            //   this.router.navigateByUrl('landingPage');
+            // }, 30000); //
+          } else {
+            this.router.navigateByUrl('errorPage'); // Default error page for other cases
+            setTimeout(() => {
+              this.router.navigateByUrl('landingPage');
+            }, 3000); //
+          }
+  
+          // Return to landing page after 3 seconds
+          // setTimeout(() => {
+          //   this.router.navigateByUrl('landingPage');
+          // }, 3000); // Return to landing page after 3 seconds
         }
-
-        setTimeout(() => {
-          this.router.navigateByUrl('landingPage');
-        }, 5000); 
-
-      }
-    })
+      });
+    }
   }
-
 
   this.inputElement.nativeElement.value = '';
   this.inputElement.nativeElement.focus();
+
 }
+
 
 }

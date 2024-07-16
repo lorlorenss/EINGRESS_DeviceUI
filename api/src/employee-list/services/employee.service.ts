@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { Observable, from, map, switchMap,mergeMap, throwError, catchError } from 'rxjs';
 import { Employee } from '../models/employee.interface';
 import { _dbemployee } from '../models/employee.entity';
@@ -45,7 +45,7 @@ create(employee: Employee): Observable<Employee> {
    
 }
 
-    findOne(id: number): Observable<Employee> {
+    findOneID(id: number): Observable<Employee> {
         return from(this.userRepository.findOne({ where: { id } }));
     }
 
@@ -53,56 +53,71 @@ create(employee: Employee): Observable<Employee> {
         return from(this.userRepository.find({relations:['accessLogs']}));
     }
 
-    findByRfidTag(rfidtag: string): Observable<number | null> {
-      return from(this.userRepository.findOne({ where: { rfidtag }, select: ['id'] })).pipe(
-        map(employee => employee ? employee.id : null),
+// NEW CODE 6-26-2024 
+    // findByRfidTag(rfidTag: string): Observable<_dbemployee> {
+    // console.log('RFID Tag input:', rfidTag);
+    // return from(this.userRepository.findOne({ where: { rfidtag: rfidTag } })).pipe(
+    //   catchError(err => {
+    //     console.error('Error finding employee by RFID tag:', err);
+    //     return throwError(new BadRequestException('Error finding employee by RFID tag'));
+    //   })
+    //  );
+    // }
+    findByRfidTag(rfidTag: string): Observable<_dbemployee> {
+      console.log('RFID Tag input:', rfidTag);
+      return from(this.userRepository.findOne({ where: { rfidtag: rfidTag } })).pipe(
+        catchError(err => {
+          console.error('Error finding employee by RFID tag:', err);
+          return throwError(new NotFoundException('Employee not found for RFID tag'));
+        })
       );
     }
+   
+
+
+    logEmployeeAccess(fingerprint: string, rfid: string): Observable<any> {
+        return from(this.userRepository.findOne({ where: { fingerprint } })).pipe(
+          switchMap((employee: _dbemployee) => {
+            if (!employee) {
+              throw new BadRequestException('Employee not found');
+            }
     
-    logEmployeeAccess(rfidTag: string): Observable<any> {
-        // console.log(rfidTag);
-        return from(this.userRepository.findOne({ where: { rfidtag: rfidTag } })).pipe(
-            switchMap(employee => {
-                if (!employee) {
-                    throw new BadRequestException('Employee not found');
-                }
-
-                // Update the last login date for the employee
-                const currentDate = new Date();
-                const options: Intl.DateTimeFormatOptions = {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: false, // Use 24-hour format
-                    timeZone: 'Asia/Manila' // Set the time zone to Philippine time
-                };
-                const dateAndTimeInPhilippineTime = currentDate.toLocaleString('en-PH', options);
-                employee.lastlogdate = dateAndTimeInPhilippineTime;
-
-                // Save the updated employee
-                return from(this.userRepository.save(employee)).pipe(
-                    switchMap(() => {
-                        // Log the access in AccessLogService
-                        // console.log(rfidTag, "This is wrong");
-                        return this.accessLogService.logAccess(rfidTag).pipe(
-                            map(() => ({ fullname: employee.fullname, role: employee.role }))
-                          );
-                    })
-                );
-            }),
-            catchError(error => {
-                if (error instanceof BadRequestException) {
-                    // Handle employee not found error here
-                    console.error('Employee not found:', error.message);
-                }
-                // Propagate the error
-                return throwError(error);
-            })
+            // Check if the employee's RFID matches the stored RFID
+            if (employee.rfidtag !== rfid) {
+              throw new BadRequestException('RFID does not match');
+            }
+    
+            const currentDate = new Date();
+            const options: Intl.DateTimeFormatOptions = {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: false,
+              timeZone: 'Asia/Manila',
+            };
+            const dateAndTimeInPhilippineTime = currentDate.toLocaleString('en-PH', options);
+            employee.lastlogdate = dateAndTimeInPhilippineTime;
+    
+            return from(this.userRepository.save(employee)).pipe(
+              switchMap(() => this.accessLogService.logAccess(fingerprint)),
+              map(() => ({
+                fullname: employee.fullname,
+                role: employee.role,
+                profileImage: employee.profileImage,
+              })),
+            );
+          }),
+          catchError((error) => {
+            if (error instanceof BadRequestException) {
+              console.error('Error logging employee access:', error.message);
+            }
+            return throwError(error);
+          }),
         );
-    }
+      }
   
      
       getOnlyDate(datetime: string): string {
@@ -136,7 +151,7 @@ create(employee: Employee): Observable<Employee> {
   
     updateOne(id: number, employee: Employee): Observable<Employee> {
         return from(this.userRepository.update(id, employee)).pipe(
-            switchMap(() => this.findOne(id))
+            switchMap(() => this.findOneID(id))
         );
     }
 
