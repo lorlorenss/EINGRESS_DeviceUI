@@ -56,17 +56,20 @@ export class VerificationComponent {
   submitData(): void {
     // Perform data submission logic here
     this.rfidInput = this.inputElement.nativeElement.value;
+    const adminRfid = this.employeeService.specialRFID[0].admin;
+    const shutdownRfid = this.employeeService.specialRFID[0].shutdown;
 
     if (this.rfidInput.trim() !== '') {
-      if (this.rfidInput=== '123') {
+      if (this.rfidInput=== shutdownRfid) {
         // Special case: Navigate to 'Shutdown' after 3 seconds
         console.log('Shutdown initiated');
         setTimeout(() => {
           this.router.navigateByUrl('shutdown');
         });
-      } else if (this.rfidInput == '0909314995') {
+      } else if (this.rfidInput == adminRfid) {
         this.router.navigateByUrl('registration');
       }
+
       else{
         this.router.navigateByUrl('notAdmin');
         setTimeout(() => {
