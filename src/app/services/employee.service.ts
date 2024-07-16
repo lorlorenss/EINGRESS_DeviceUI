@@ -4,12 +4,20 @@ import { Observable, BehaviorSubject, catchError, throwError, map } from 'rxjs';
 import { Employee } from '../interface/employee';
 import { environment } from 'src/environments/environment.prod';
 
+interface Access {
+  internRFID: string;
+  school: string;
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
 
   emergencyText: string = "emergency";
+  rfidNumber: string | undefined;
+  fingerprintUI!: string;
 
   specialRFID = [
     {
@@ -19,11 +27,35 @@ export class EmployeeService {
 
   ];
 
-  ojtAccess = ["123", "1234", "123124", "51249123", "1293851"]
+  ojtAccess: Access[] = [
+    {
+      internRFID: "123",
+      school: "UM"
+    }, 
+    {
+      internRFID: "321",
+      school: "Caraga"
+    }, 
+    {
+      internRFID: "12345",
+      school: "STI"
+    }, 
+    {
+      internRFID: "123456",
+      school: "UP"
+    }
+  ];
 
+  findInternRFID(rfid: string):  Access | undefined {
+    return this.ojtAccess.find(item => item.internRFID === rfid);
+  }
 
-  rfidNumber: string | undefined;
-  fingerprintUI!: string;
+  findSchoolByRFID(rfid: string | undefined, accessList: Access[]): string | undefined {
+    const foundItem = accessList.find(item => item.internRFID === rfid);
+    return foundItem ? foundItem.school : undefined;
+  }
+
+  
 
   setRfid(rfid: string) {
     this.rfidNumber = rfid;

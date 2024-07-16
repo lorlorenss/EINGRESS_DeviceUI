@@ -64,14 +64,19 @@ submitData(): void {
         this.router.navigateByUrl('shutdown');
       });
     } 
-    else if(this.employeeService.ojtAccess.includes(this.rfidInput.trim())){
-      
-    }
     else if (this.rfidInput == adminRfid) {
       this.router.navigateByUrl('delete');
     }
+
     else if (this.rfidInput == emergencyText) {
       this.router.navigateByUrl('emergency');
+      setTimeout(() => {
+        this.router.navigateByUrl('landingPage');
+      }, 10000); 
+    }
+    else if (this.employeeService.findInternRFID(this.rfidInput)) {
+      this.employeeService.setRfid(this.rfidInput);
+      this.router.navigateByUrl('welcomeInterns');
       setTimeout(() => {
         this.router.navigateByUrl('landingPage');
       }, 10000); 
