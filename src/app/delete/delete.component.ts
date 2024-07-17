@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild, HostListener, Output } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { Router } from '@angular/router';
-import { Employee } from '../interface/employee';
+
 
 @Component({
   selector: 'app-delete',
@@ -51,27 +51,10 @@ export class DeleteComponent {
 
   submitData(): void {
     // Perform data submission logic here
-
-    if (this.instruction.includes('Fingerprint ID:')){
-      this.instruction = this.inputElement.nativeElement.value;
-      if (this.instruction.includes('Success')){
-        this.instruction = "Fingerprint Successfully deleted on the sensor"
-        setTimeout(() => {
-          this.router.navigateByUrl('landingPage');
-        },3000);
-    }
-    else if (this.instruction.includes('Failed')){
-      this.instruction = "Fingerprint already deleted in sensor"
-      setTimeout(() => {
-        this.router.navigateByUrl('landingPage');
-      },3000);
-  }
-    }
-    else{
       this.rfidInput = this.inputElement.nativeElement.value;
       const adminRfid = this.employeeService.specialRFID[0].admin;
       const shutdownRfid = this.employeeService.specialRFID[0].shutdown;
-  
+      const emergencyText = this.employeeService.emergencyText;
   
       if (this.rfidInput.trim() !== '') {
         if (this.rfidInput.trim() === shutdownRfid) {
@@ -80,6 +63,12 @@ export class DeleteComponent {
           setTimeout(() => {
             this.router.navigateByUrl('shutdown');
           });
+        }
+        else if(this.rfidInput.trim() === emergencyText) {
+          this.router.navigateByUrl('emergency');
+          setTimeout(() => {
+            this.router.navigateByUrl('landingPage');
+          }, 10000); 
         }
         else {
           // Default case: Perform normal login process
@@ -111,7 +100,7 @@ export class DeleteComponent {
       }
       this.inputElement.nativeElement.value = '';
       this.inputElement.nativeElement.focus();
-    }
+    
   
     }
     

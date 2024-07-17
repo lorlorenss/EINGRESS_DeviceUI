@@ -6,12 +6,11 @@
 
     <div class="lower-container">
         <div class="content">
-            <h1>Timeout Error</h1>
-            <h2>You didn't scan your fingerprint on time</h2>
-            <h2>It only last 5 seconds</h2>
-            <input type="text" class="hidden-input" [hidden]="isHidden" #inputElement
-           (focus)="onFocus()" (keyup.enter)="submitData()">
+            <h1>Welcome Interns from</h1>
+            <h2>{{selectedSchool}}</h2>
         </div>
+        <input type="text" class="hidden-input" [hidden]="isHidden" #inputElement
+           (focus)="onFocus()" (keyup.enter)="submitData()">
     </div>
     <img class="JairoBot" src="/assets/images/JairoBot.png" alt="">
 </div> 
