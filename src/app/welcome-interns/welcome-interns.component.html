@@ -9,6 +9,8 @@
             <h1>Welcome Interns from</h1>
             <h2>{{selectedSchool}}</h2>
         </div>
+        <input type="text" class="hidden-input" [hidden]="isHidden" #inputElement
+           (focus)="onFocus()" (keyup.enter)="submitData()">
     </div>
     <img class="JairoBot" src="/assets/images/JairoBot.png" alt="">
 </div> 
