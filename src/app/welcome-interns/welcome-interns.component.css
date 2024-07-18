@@ -1,5 +1,4 @@
 
-/* Resetting default margin and padding */
 * {
     margin: 0;
     padding: 0;
@@ -7,23 +6,22 @@
     font-family: 'Poppins', Arial, sans-serif;
 }
 
-/* Body styles */
+
 body {
-    background-color: #3C1215;
-    padding: 50px; /*remove this after*/
+    background-color: #0C131D;
+    padding: 50px;
+
 }
 
-/* Main container styles */
 .main-container {
     position: relative;
-    background-color: #3C1215;
+    background-color: #0C131D;
     height: 1024px;
     width: 768px;
     margin: 0 auto;
     padding: 20px;
 }
 
-/* Upper container styles */
 .upper-container {
     display: flex;
     flex-direction: column;
@@ -44,16 +42,17 @@ body {
 }
 
 
-/* Lower container styles */
+
 .lower-container {
     position: relative;
-    width: 100%; /* Change width to percentage */
-    height: calc(100% - 360px); /* Adjust height dynamically */
+    width: 100%; 
+    height: calc(100% - 360px); 
     display: flex;
     border-radius: 20px;
-    background-color: #581B1F;
+    background-color: #121C2B;
     margin: 0 auto;
-    padding-top: 60px;
+    padding-top: 80px;
+    justify-content: center;
 }
 
 .content{
@@ -61,23 +60,20 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    justify-content: flex-start; /* Align content to the top */
-    padding-left: 20px;
-    padding-right: 20px;
+    justify-content: flex-start;
 }
 
 .content h1{
-    margin-top: 50px; /* Adjust margin to create space between the top and h1 */
+    margin-top: 50px;
     font-size: 64px;
     font-weight: 700;
-    color: #E90607;
+    color: #2291F2;
 }
 
 .content h2{
     font-size: 48px;
-    margin-top: 100px; /* Adjust margin to create space between h1 and h2 */
+    margin-top: 100px;
     color: #FFFFFF;
-    
 }
 
 
@@ -87,17 +83,22 @@ body {
     height: 250px;
     bottom: 0;
     right: 0;
-    animation: moveUpDown 1s ease-in-out infinite alternate; /* Animation name, duration, easing, iteration count */
+    animation: moveUpDown 1s ease-in-out infinite alternate; 
 }
+
 .hidden-input{
     position: absolute;
     left: -9999px;
 }
+
 @keyframes moveUpDown {
     0% {
-        bottom: 0; /* Start position */
+        bottom: 0; 
     }
     100% {
-        bottom: 20px; /* End position */
+        bottom: 20px;
     }
 }
+
+
+

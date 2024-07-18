@@ -1,0 +1,15 @@
+AZURE
+https://jairo.visualstudio.com/DefaultCollection/Xeno/_git/eingress.git
+https://jairo.visualstudio.com/DefaultCollection/Xeno/_git/eingress-device-ui.git
+
+GIT 
+https://github.com/lorlorenss/EINGRESS.git
+https://github.com/lorlorenss/EINGRESS_DeviceUI.git
+
+removing:
+
+git remote remove origin
+
+adding:
+
+git remote add origin <link>

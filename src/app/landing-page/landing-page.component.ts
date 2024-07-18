@@ -53,6 +53,7 @@ submitData(): void {
   this.rfidInput = this.inputElement.nativeElement.value;
   const adminRfid = this.employeeService.specialRFID[0].admin;
   const shutdownRfid = this.employeeService.specialRFID[0].shutdown;
+  const emergencyText = this.employeeService.emergencyText;
 
 
   if (this.rfidInput.trim() !== '') {
@@ -63,11 +64,22 @@ submitData(): void {
         this.router.navigateByUrl('shutdown');
       });
     } 
-    else if(this.employeeService.ojtAccess.includes(this.rfidInput.trim())){
-      
-    }
     else if (this.rfidInput == adminRfid) {
       this.router.navigateByUrl('delete');
+    }
+
+    else if (this.rfidInput == emergencyText) {
+      this.router.navigateByUrl('emergency');
+      setTimeout(() => {
+        this.router.navigateByUrl('landingPage');
+      }, 10000); 
+    }
+    else if (this.employeeService.findInternRFID(this.rfidInput)) {
+      this.employeeService.setRfid(this.rfidInput);
+      this.router.navigateByUrl('welcomeInterns');
+      setTimeout(() => {
+        this.router.navigateByUrl('landingPage');
+      }, 10000); 
     }
     else {
       // Default case: Perform normal login process

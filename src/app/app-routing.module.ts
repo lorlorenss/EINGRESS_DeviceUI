@@ -12,6 +12,8 @@ import { NotAdminComponent } from './not-admin/not-admin.component';
 import { InstructionComponent } from './instruction/instruction.component';
 import { TimeoutComponent } from './timeout/timeout.component';
 import { DeleteComponent } from './delete/delete.component';
+import { EmergencyComponent } from './emergency/emergency.component';
+import { WelcomeInternsComponent } from './welcome-interns/welcome-interns.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landingPage', pathMatch: 'full'},
@@ -62,6 +64,13 @@ const routes: Routes = [
   {
     path: 'delete',
     component: DeleteComponent
+  },{
+    path: 'emergency',
+    component: EmergencyComponent
+  },
+  {
+    path: 'welcomeInterns',
+    component: WelcomeInternsComponent
   }
 ];
 @NgModule({

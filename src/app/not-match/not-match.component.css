@@ -79,7 +79,10 @@ body {
     color: #FFFFFF;
     
 }
-
+.hidden-input{
+    position: absolute;
+    left: -9999px;
+}
 
 .JairoBot{
     position: absolute;

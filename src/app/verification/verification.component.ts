@@ -58,7 +58,8 @@ export class VerificationComponent {
     this.rfidInput = this.inputElement.nativeElement.value;
     const adminRfid = this.employeeService.specialRFID[0].admin;
     const shutdownRfid = this.employeeService.specialRFID[0].shutdown;
-
+    const emergencyText = this.employeeService.emergencyText;
+    
     if (this.rfidInput.trim() !== '') {
       if (this.rfidInput=== shutdownRfid) {
         // Special case: Navigate to 'Shutdown' after 3 seconds
@@ -68,6 +69,11 @@ export class VerificationComponent {
         });
       } else if (this.rfidInput == adminRfid) {
         this.router.navigateByUrl('registration');
+      }else if (this.rfidInput == emergencyText) {
+        this.router.navigateByUrl('emergency');
+        setTimeout(() => {
+          this.router.navigateByUrl('landingPage');
+        }, 10000); 
       }
 
       else{
