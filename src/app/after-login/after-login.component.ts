@@ -11,7 +11,8 @@ import { EmployeeService } from '../services/employee.service';
 export class AfterLoginComponent implements OnInit {
   data: Employee | null = null;
   greetings: string = '';
-
+  baseUrl = this.employeeService.apiUrl;
+  eingressapiUrl = "http://localhost:3000";
   constructor(private employeeService: EmployeeService){}
 
   ngOnInit(): void {
@@ -20,6 +21,8 @@ export class AfterLoginComponent implements OnInit {
     })
     this.setGreeting();
   }
+
+  
 
   setGreeting(){
     const currentTime = new Date().getHours();

@@ -1,0 +1,23 @@
+services:
+  nestjs:
+    image: uinest
+    container_name: deviceuinestjs
+    ports:
+      - "3100:3100"
+
+  angular:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: uiangular
+    container_name: deviceuiangular
+    ports:
+      - "4201:80"  # Map container port 80 to host port 4201
+    depends_on:
+      - nestjs
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
