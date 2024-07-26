@@ -62,7 +62,7 @@ export class EmployeeService {
   }
 
 
-  private apiUrl = `${environment.baseURL}api/employee`
+  apiUrl = `${environment.baseURL}api/employee`
   private employeeSubject: BehaviorSubject<Employee | null> = new BehaviorSubject<Employee | null>(null);
   public employee$: Observable<Employee | null> = this.employeeSubject.asObservable();
 
