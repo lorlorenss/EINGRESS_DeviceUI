@@ -1,6 +1,6 @@
 export const environment = {
     production : true,
    
-    // baseURL : 'http://localhost:4200/' 
-        baseURL : 'http://localhost:3000/' 
+    // api url
+        baseURL : 'http://104.43.100.222:3000/' 
 }
