@@ -91,9 +91,6 @@ submitData(): void {
           // Example: Set employee data in a service for later use
           this.employeeService.setEmployee(response);
           this.employeeService.setRfid(this.rfidInput);
-          // setTimeout(() => {
-          //   this.router.navigateByUrl('landingPage');
-          // }, 10000); // 10 seconds delay
         },
         error: (errorMessage: string) => {
           console.error('Error logging employee access:', errorMessage);
@@ -106,20 +103,15 @@ submitData(): void {
             }, 3000); // 30 seconds delay
           } else if (errorMessage === 'Employee has no fingerprint.') {
             this.router.navigateByUrl('verification');
-            // setTimeout(() => {
-            //   this.router.navigateByUrl('landingPage');
-            // }, 30000); //
+            setTimeout(() => {
+              this.router.navigateByUrl('landingPage');
+            }, 5000); //
           } else {
             this.router.navigateByUrl('errorPage'); // Default error page for other cases
             setTimeout(() => {
               this.router.navigateByUrl('landingPage');
             }, 3000); //
           }
-  
-          // Return to landing page after 3 seconds
-          // setTimeout(() => {
-          //   this.router.navigateByUrl('landingPage');
-          // }, 3000); // Return to landing page after 3 seconds
         }
       });
     }
