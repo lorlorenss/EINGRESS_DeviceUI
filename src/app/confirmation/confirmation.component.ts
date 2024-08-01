@@ -41,20 +41,12 @@ export class ConfirmationComponent {
     // Prevent the default behavior of the click event to ensure the input textbox remains focused
     event.preventDefault();
   }
-  // onInput(event: Event): void {
-  //   // Log the typed input to the console
-  //   console.log('Typed input:', (event.target as HTMLInputElement).value);
-  // }
+
 
 onFocus(): void{
   this.isHidden = false;
 }
 
-// onBlur(): void{
-// setTimeout(() => {
-//   this.isHidden = false;
-// })
-// }
 
 
 submitData(): void {
@@ -107,7 +99,4 @@ submitData(): void {
   this.inputElement.nativeElement.value = '';
   this.inputElement.nativeElement.focus();
 }
-
-
-
 }
