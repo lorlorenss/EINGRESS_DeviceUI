@@ -103,9 +103,7 @@ submitData(): void {
             }, 3000); // 30 seconds delay
           } else if (errorMessage === 'Employee has no fingerprint.') {
             this.router.navigateByUrl('verification');
-            setTimeout(() => {
-              this.router.navigateByUrl('landingPage');
-            }, 5000); //
+           
           } else {
             this.router.navigateByUrl('errorPage'); // Default error page for other cases
             setTimeout(() => {
