@@ -72,7 +72,7 @@ submitData(): void {
     else {
       // Default case: Perform normal login process
     
-      this.employeeService.confirmEmployee(this.rfid, this.fingerInput).subscribe({
+      this.employeeService.confirmEmployee(this.fingerInput, this.rfid).subscribe({
         next: (response: any) => {
           this.router.navigateByUrl('afterLoginPage');
           this.employeeService.setEmployee(response);
