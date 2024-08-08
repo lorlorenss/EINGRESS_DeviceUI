@@ -20,7 +20,11 @@ export class ConfirmationComponent {
     private employeeService: EmployeeService,
     private router: Router,
     private errorLogService: ErrorLogService
-  ) {}
+  ) {
+    setTimeout(() => {
+      this.inputElement.nativeElement.focus();
+    });
+  }
 
   ngOnInit() {
     this.getRfid(); // Retrieve RFID when component initializes
