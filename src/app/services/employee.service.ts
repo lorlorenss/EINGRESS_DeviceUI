@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Observable, BehaviorSubject, catchError, throwError, map } from 'rxjs';
 import { Employee } from '../interface/employee';
 import { environment } from 'src/environments/environment.prod';
+import { Errorlog } from '../interface/errorlog';
 
 interface Access {
   internRFID: string;
@@ -63,11 +64,20 @@ export class EmployeeService {
 
 
   apiUrl = `${environment.baseURL}api/employee`
+  private errorLogUrl = `${this.apiUrl}/error-logs`; // Endpoint for error logging
   private employeeSubject: BehaviorSubject<Employee | null> = new BehaviorSubject<Employee | null>(null);
   public employee$: Observable<Employee | null> = this.employeeSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
+  logError(error: { errorType: string; message: string }): Observable<Errorlog> {
+    return this.http.post<Errorlog>(this.errorLogUrl, error).pipe(
+      catchError(err => {
+        console.error('Error logging errorlogs:', err);
+        return throwError('Error logging errorlogs');
+      })
+    );
+  }
 
   // verifyRfid(rfidTag: string): Observable<Employee> {
   //   const url = `${this.apiUrl}/rfid/${rfidTag}`;
@@ -116,8 +126,8 @@ export class EmployeeService {
     const loginEmployeeUrl = `${this.apiUrl}/log-access`;
     return this.http.post<Employee>(loginEmployeeUrl, { rfid, fingerprint }).pipe(
       catchError(err => {
-        console.error('Error logging employee access:', err);
-        return throwError('Error logging employee access');
+        console.error('Error Fingerprint not match:', err);
+        return throwError('Error Fingerprint not match:');
       })
     );
   }
