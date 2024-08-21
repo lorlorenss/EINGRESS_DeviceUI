@@ -4,6 +4,6 @@ export const environment = {
     // api url
         // baseURL : 'http://104.43.100.222:3000/' 
         //apiurl from jairo api
-        baseURL : 'https://jairoeingressapi.azurewebsites.net/' 
-        //baseURL : 'http://localhost:3000/'
+        //baseURL : 'https://jairoeingressapi.azurewebsites.net/' 
+        baseURL : 'http://localhost:3000/'
     }
