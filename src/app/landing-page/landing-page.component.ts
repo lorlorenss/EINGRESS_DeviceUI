@@ -37,6 +37,7 @@ export class LandingPageComponent {
   }
 
   submitData(): void {
+    // Perform data submission logic here
     this.rfidInput = this.inputElement.nativeElement.value;
     const adminRfid = this.employeeService.specialRFID[0].admin;
     const shutdownRfid = this.employeeService.specialRFID[0].shutdown;
@@ -49,32 +50,34 @@ export class LandingPageComponent {
         setTimeout(() => {
           this.router.navigateByUrl('shutdown');
         });
-      } else if (this.rfidInput === adminRfid) {
+      } 
+      else if (this.rfidInput == adminRfid) {
         this.router.navigateByUrl('delete');
-      } else if (this.rfidInput === emergencyText) {
+      }
+      else if (this.rfidInput == emergencyText) {
         this.router.navigateByUrl('emergency');
         setTimeout(() => {
           this.router.navigateByUrl('landingPage');
-        }, 10000); // Return to landing page after 10 seconds
-      } else {
+        }, 10000); 
+      }
+      else {
         // Default case: Perform normal login process
         this.employeeService.verifyRfid(this.rfidInput).subscribe({
           next: (response: any) => {
             console.log('RFID verified:', response);
             // Handle successful response
-            if (response.role === 'Intern') {
+            if(response.role="Intern"){
               this.router.navigateByUrl('afterLoginPage');
-              this.employeeService.setEmployee(response);
-              setTimeout(() => {
-                this.router.navigateByUrl('landingPage');
-              }, 10000); // Return to landing page after 10 seconds
-            } 
-            else {
-              this.router.navigateByUrl('confirmation');
               // Example: Set employee data in a service for later use
               this.employeeService.setEmployee(response);
-              this.employeeService.setRfid(this.rfidInput);
+
             }
+            else{
+            this.router.navigateByUrl('confirmation');
+            // Example: Set employee data in a service for later use
+            this.employeeService.setEmployee(response);
+            this.employeeService.setRfid(this.rfidInput);
+          }
           },
           error: (errorMessage: string) => {
             // Log the error message
@@ -83,21 +86,20 @@ export class LandingPageComponent {
               error: (err) => console.error('Failed to log error:', err),
             });
             console.log("Log Error function prompted: ", errorMessage);
-              if (errorMessage === 'Employee not found.') {
-                this.router.navigateByUrl('errorPage');
-                setTimeout(() => {
-                  this.router.navigateByUrl('landingPage');
-                }, 3000); // 3 seconds delay
-              } else if (errorMessage === 'Employee has no fingerprint.') {
-                this.router.navigateByUrl('verification');
-              } 
-            {
-                this.router.navigateByUrl('errorPage'); // Default error page for other cases
-                setTimeout(() => {
-                  this.router.navigateByUrl('landingPage');
-                }, 3000); // 3 seconds delay
-              }
-
+            // Check error conditions and route accordingly
+            if (errorMessage === 'Employee not found.') {
+              this.router.navigateByUrl('errorPage');
+              setTimeout(() => {
+                this.router.navigateByUrl('landingPage');
+              }, 3000); // 30 seconds delay
+            } else if (errorMessage === 'Employee has no fingerprint.') {
+              this.router.navigateByUrl('verification');
+            } else {
+              this.router.navigateByUrl('errorPage'); // Default error page for other cases
+              setTimeout(() => {
+                this.router.navigateByUrl('landingPage');
+              }, 3000); //
+            }
           }
         });
       }
@@ -106,5 +108,4 @@ export class LandingPageComponent {
     this.inputElement.nativeElement.value = '';
     this.inputElement.nativeElement.focus();
   }
-  
 }
