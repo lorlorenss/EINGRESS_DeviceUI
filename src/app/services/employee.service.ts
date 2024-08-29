@@ -73,10 +73,6 @@ export class EmployeeService {
     );
   }
 
-  // confirmEmployee(rfidValue: string): Observable<Employee>{
-  //   const loginEmployeeUrl = `${this.apiUrl}/log-access`;
-  //   return this.http.post<Employee>(loginEmployeeUrl, { fingerprint: rfidValue });
-  // }
 
   confirmEmployee(fingerprint: string, rfid: string): Observable<Employee> {
     const loginEmployeeUrl = `${this.apiUrl}/log-access`;

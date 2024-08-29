@@ -64,20 +64,19 @@ export class LandingPageComponent {
         // Default case: Perform normal login process
         this.employeeService.verifyRfid(this.rfidInput).subscribe({
           next: (response: any) => {
-            console.log('RFID verified:', response);
-            // Handle successful response
-            if(response.role="Intern"){
-              this.router.navigateByUrl('afterLoginPage');
-              // Example: Set employee data in a service for later use
+            if( response.role !== "Intern"){
+              this.router.navigateByUrl('confirmation');
               this.employeeService.setEmployee(response);
-
+              this.employeeService.setRfid(this.rfidInput);
             }
             else{
-            this.router.navigateByUrl('confirmation');
-            // Example: Set employee data in a service for later use
-            this.employeeService.setEmployee(response);
-            this.employeeService.setRfid(this.rfidInput);
-          }
+              console.log("Routing to welcome page")
+              this.employeeService.setEmployee(response);
+              this.router.navigateByUrl('afterLoginPage');
+              setTimeout(() => {
+                this.router.navigateByUrl('landingPage');
+              }, 10000); // Return to landing page after 10 seconds
+            }
           },
           error: (errorMessage: string) => {
             // Log the error message
@@ -94,7 +93,8 @@ export class LandingPageComponent {
               }, 3000); // 30 seconds delay
             } else if (errorMessage === 'Employee has no fingerprint.') {
               this.router.navigateByUrl('verification');
-            } else {
+            }
+            else {
               this.router.navigateByUrl('errorPage'); // Default error page for other cases
               setTimeout(() => {
                 this.router.navigateByUrl('landingPage');
