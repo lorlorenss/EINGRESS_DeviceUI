@@ -17,7 +17,6 @@ import { InstructionComponent } from './instruction/instruction.component';
 import { TimeoutComponent } from './timeout/timeout.component';
 import { DeleteComponent } from './delete/delete.component';
 import { EmergencyComponent } from './emergency/emergency.component';
-import { WelcomeInternsComponent } from './welcome-interns/welcome-interns.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +32,6 @@ import { WelcomeInternsComponent } from './welcome-interns/welcome-interns.compo
     TimeoutComponent,
     DeleteComponent,
     EmergencyComponent,
-    WelcomeInternsComponent
   ],
   imports: [
     BrowserModule,
