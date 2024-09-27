@@ -61,7 +61,7 @@ export class ConfirmationComponent {
         this.router.navigateByUrl('timeout');
         setTimeout(() => {
           this.router.navigateByUrl('landingPage');
-        }, 5000); 
+        }, 1500); 
       }
       else {
         this.employeeService.confirmEmployee(this.fingerInput, this.rfid).subscribe({
