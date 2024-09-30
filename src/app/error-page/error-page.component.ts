@@ -1,6 +1,8 @@
-import { Component, ElementRef, ViewChild, HostListener, Output } from '@angular/core';
+import { Component, ElementRef, ViewChild, HostListener, OnInit } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { Router } from '@angular/router';
+import { TimeService } from '../services/time.service';
+
 @Component({
   selector: 'app-error-page',
   templateUrl: './error-page.component.html',
@@ -11,8 +13,14 @@ export class ErrorPageComponent {
   isHidden: boolean = false;
   instruction: string = '';
   rfidInput: string = '';
+  currentTime: Date = new Date();
+  greeting: string = '';
 
-  constructor(private employeeService: EmployeeService, private router: Router) {
+  constructor(
+    private employeeService: EmployeeService, 
+    private router: Router,
+    private timeService: TimeService
+  ) {
     // Focus on the input textbox when the component is initialized
     setTimeout(() => {
       this.inputElement.nativeElement.focus();
@@ -34,6 +42,28 @@ export class ErrorPageComponent {
     this.isHidden = false;
   }
 
+  ngOnInit(): void {
+    this.updateCurrentTime();
+    setInterval(() => {
+      this.updateCurrentTime();
+    }, 1000); // Update every second
+  }
+
+  updateCurrentTime(): void {
+    this.currentTime = this.timeService.getCurrentTime();
+    this.setGreeting();
+  }
+
+  setGreeting(): void {
+    const hours = this.currentTime.getHours();
+    if (hours < 12) {
+      this.greeting = 'Good Morning!';
+    } else if (hours < 18) {
+      this.greeting = 'Good Afternoon!';
+    } else {
+      this.greeting = 'Good Evening!';
+    }
+  }
 
   submitData(): void {
     // Perform data submission logic here

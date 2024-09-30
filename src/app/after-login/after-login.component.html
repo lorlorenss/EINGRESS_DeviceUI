@@ -22,15 +22,15 @@
     <div class="middle-container">
         <div class="content">
             <div class="upper-contet">
-                <h1>Hello, Good Morning!</h1>
+                <h1>Hello, {{ greeting }}</h1>
             </div>
             <div class="lower-content">
                 <div class="left-lower-content">
-                    <h2>Date: September 23, 2024</h2>
+                    <h2>Date: {{ currentTime | date:'MMM d, y' }}</h2>
                 </div>
 
                 <div class="left-right-content">
-                    <h2>Time: 7:50AM</h2>
+                    <h2>Time: {{ currentTime | date:'h:mm a' }}</h2>
                 </div>
             </div>
         </div>
