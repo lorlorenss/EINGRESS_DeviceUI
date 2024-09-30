@@ -64,7 +64,7 @@ export class LandingPageComponent {
         // Default case: Perform normal login process
         this.employeeService.verifyRfid(this.rfidInput).subscribe({
           next: (response: any) => {
-            if( response.role !== "Intern"){
+            if( response.role !== "Intern" && response.role !== "Guest"){
               this.router.navigateByUrl('confirmation');
               this.employeeService.setEmployee(response);
               this.employeeService.setRfid(this.rfidInput);
@@ -75,7 +75,7 @@ export class LandingPageComponent {
               this.router.navigateByUrl('afterLoginPage');
               setTimeout(() => {
                 this.router.navigateByUrl('landingPage');
-              }, 10000); // Return to landing page after 10 seconds
+              }, 60000); // Return to landing page after 10 seconds
             }
           },
           error: (errorMessage: string) => {
