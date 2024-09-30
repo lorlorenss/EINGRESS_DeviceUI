@@ -33,15 +33,14 @@
                     <h2>Time: 7:50AM</h2>
                 </div>
             </div>
-            
-            <input type="text" class="hidden-input" [hidden]="isHidden" #inputElement
-           (focus)="onFocus()" (keyup.enter)="submitData()">
         </div>
     </div>
     
 
     <div class="jairobot-container">
         <img class="JairoBot" src="/assets/images/JairoBot.png" alt="">
+        <input type="text" class="hidden-input" [hidden]="isHidden" #inputElement
+       (focus)="onFocus()" (keyup.enter)="submitData()">
     </div>
 
     <div class="bottom-container">
