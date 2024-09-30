@@ -70,7 +70,7 @@ export class ConfirmationComponent {
             this.employeeService.setEmployee(response);
             setTimeout(() => {
               this.router.navigateByUrl('landingPage');
-            }, 10000); // Return to landing page after 10 seconds
+            }, 20000); // Return to landing page after 10 seconds
           },
           error: (error: any) => {
             this.router.navigateByUrl('notMatch');
