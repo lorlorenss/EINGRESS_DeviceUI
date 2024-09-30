@@ -58,7 +58,7 @@ export class LandingPageComponent {
         this.router.navigateByUrl('emergency');
         setTimeout(() => {
           this.router.navigateByUrl('landingPage');
-        }, 10000); 
+        }, 20000); 
       }
       else {
         // Default case: Perform normal login process
