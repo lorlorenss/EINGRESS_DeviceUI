@@ -4,8 +4,9 @@ import { RouterModule } from '@angular/router'; // Import RouterModule
 import { AppRoutingModule } from './app-routing.module'; // Check this line
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { AfterLoginComponent } from './after-login/after-login.component';
 
+import { AfterLoginComponent } from './after-login/after-login.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 import { AppComponent } from './app.component';
 import { ShutdownComponent } from './shutdown/shutdown.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
@@ -17,6 +18,7 @@ import { InstructionComponent } from './instruction/instruction.component';
 import { TimeoutComponent } from './timeout/timeout.component';
 import { DeleteComponent } from './delete/delete.component';
 import { EmergencyComponent } from './emergency/emergency.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { EmergencyComponent } from './emergency/emergency.component';
     TimeoutComponent,
     DeleteComponent,
     EmergencyComponent,
+    LandingPageComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,

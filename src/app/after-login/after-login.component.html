@@ -1,5 +1,65 @@
 <div class="main-container" *ngIf="data">
     <div class="upper-container">
+        <div class="upper-left">
+            <img src="/assets/images/jairo-logo.png" alt="">
+        </div>
+        <div class="upper-right">
+            <div class="top">
+                <p>Jairosoft</p>
+            </div>
+            <div class="bottom">
+                <div class="bottom-left">
+                    <svg class="title-line" width="87" height="2" viewBox="0 0 87 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0.0695801" y1="1.38803" x2="86.0348" y2="1.38803" stroke="#B6B6B6" stroke-width="1.22394"/>
+                    </svg>
+                </div>
+                <p class="eingress-title">EINGRESS</p>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="middle-container">
+        <div class="content">
+            <div class="upper-contet">
+                <h1>Hello, {{ greeting }}</h1>
+            </div>
+            <div class="lower-content">
+                <div class="left-lower-content">
+                    <h2>Date: {{ currentTime | date:'MMM d, y' }}</h2>
+                </div>
+
+                <div class="left-right-content">
+                    <h2>Time: {{ currentTime | date:'h:mm a' }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="jairobot-container">
+        <img class="JairoBot" src="/assets/images/JairoBot.png" alt="">
+    </div>
+
+    <div class="bottom-container">
+        <div class="text-greeting">
+            <p>Hi! Have a nice day ahead!</p>
+        </div>
+        <div class="employee-details">
+            <div class="photoholder">
+                <img class="displayPhoto" [src]="baseUrl + '/profile-image/' + data.profileImage" alt="profilephoto">
+            </div>
+            <div class="name-role-container">
+                <div class="name">{{ data.fullname }}</div>
+                <div class="date">{{ data.role }}</div>
+            </div>
+        </div>
+    </div>
+
+</div> 
+
+<!-- <div class="main-container" *ngIf="data">
+    <div class="upper-container">
             <img src="/assets/images/jairo-logo.png" alt="">
             <div class="EINGRESS">
                 <p>Jairosoft</p>    
@@ -19,4 +79,4 @@
         </div>
          
     </div>
-</div>
+</div> -->

@@ -1,8 +1,9 @@
-import { Component, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Component, ElementRef, ViewChild, HostListener, OnInit } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { Router } from '@angular/router';
 import { Employee } from '../interface/employee';
 import { ErrorLogService } from '../services/error-log.service';
+import { TimeService } from '../services/time.service';
 
 @Component({
   selector: 'app-confirmation',
@@ -15,11 +16,14 @@ export class ConfirmationComponent {
   fingerInput: string = '';
   employee: Employee[] = [];
   rfid: string = '';
+  currentTime: Date = new Date();
+  greeting: string = '';
 
   constructor(
     private employeeService: EmployeeService,
     private router: Router,
-    private errorLogService: ErrorLogService
+    private errorLogService: ErrorLogService,
+    private timeService: TimeService
   ) {
     setTimeout(() => {
       this.inputElement.nativeElement.focus();
@@ -28,6 +32,10 @@ export class ConfirmationComponent {
 
   ngOnInit() {
     this.getRfid(); // Retrieve RFID when component initializes
+    this.updateCurrentTime();
+    setInterval(() => {
+      this.updateCurrentTime();
+    }, 1000); // Update every second
   }
 
   getRfid() {
@@ -44,6 +52,23 @@ export class ConfirmationComponent {
   onFocus(): void {
     this.isHidden = false;
   }
+
+  updateCurrentTime(): void {
+    this.currentTime = this.timeService.getCurrentTime();
+    this.setGreeting();
+  }
+
+  setGreeting(): void {
+    const hours = this.currentTime.getHours();
+    if (hours < 12) {
+      this.greeting = 'Good Morning!';
+    } else if (hours < 18) {
+      this.greeting = 'Good Afternoon!';
+    } else {
+      this.greeting = 'Good Evening!';
+    }
+  }
+
 
   submitData(): void {
     this.fingerInput = this.inputElement.nativeElement.value;
@@ -70,7 +95,7 @@ export class ConfirmationComponent {
             this.employeeService.setEmployee(response);
             setTimeout(() => {
               this.router.navigateByUrl('landingPage');
-            }, 60000); // Return to landing page after 10 seconds
+            }, 30000); // Return to landing page after 10 seconds
           },
           error: (error: any) => {
             this.router.navigateByUrl('notMatch');
