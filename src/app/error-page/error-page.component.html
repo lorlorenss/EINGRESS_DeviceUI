@@ -26,7 +26,7 @@
             </div>
             <div class="lower-content">
                 <div class="left-lower-content">
-                    <h2>Date: {{ currentTime | date:'MMM d, y' }}</h2>
+                    <h2>Date: {{ currentTime | date:'MMMM d, y' }}</h2>
                 </div>
 
                 <div class="left-right-content">
@@ -35,22 +35,21 @@
             </div>
         </div>
     </div>
+    
 
     <div class="jairobot-container">
+        <h1 class="notAdmin-text">Not Registered</h1>
         <img class="JairoBot" src="/assets/images/JairoBot.png" alt="">
         <input type="text" class="hidden-input" [hidden]="isHidden" #inputElement
        (focus)="onFocus()" (keyup.enter)="submitData()">
     </div>
 
     <div class="bottom-container">
-        <p class="bio-not-registered">Your biometrics is not registered!</p>
         <div class="error-rfid">
-            <p class="ask-admin-text">Please ask the admin RFID card to register.</p>
+            <p class="instruction">Ask Admin if you want to register.</p>
         </div>
         <div class="rfid-logo">
             <img class="rfid" src="/assets/images/RFID.gif" alt="RFID Logo" srcset="">
         </div>
     </div>
-
 </div> 
-

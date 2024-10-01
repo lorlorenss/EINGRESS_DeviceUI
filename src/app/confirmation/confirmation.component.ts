@@ -18,6 +18,8 @@ export class ConfirmationComponent {
   rfid: string = '';
   currentTime: Date = new Date();
   greeting: string = '';
+  scanningMessage: string = 'Hold to scan your fingerprint';
+  isScanning: boolean = false;
 
   constructor(
     private employeeService: EmployeeService,
@@ -30,9 +32,19 @@ export class ConfirmationComponent {
     });
   }
 
+  onScanStart(): void {
+    this.isScanning = false;
+    // Optional: Simulate a delay before performing further actions
+    setTimeout(() => {
+        // You can add logic here for after scanning, if needed
+        this.isScanning = true; // Reset scanning state after the task is done
+    }, 2000); // Keep the message for 3 seconds or adjust as necessary
+  }
+
   ngOnInit() {
     this.getRfid(); // Retrieve RFID when component initializes
     this.updateCurrentTime();
+    this.onScanStart();
     setInterval(() => {
       this.updateCurrentTime();
     }, 1000); // Update every second
