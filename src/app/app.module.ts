@@ -19,6 +19,7 @@ import { TimeoutComponent } from './timeout/timeout.component';
 import { DeleteComponent } from './delete/delete.component';
 import { EmergencyComponent } from './emergency/emergency.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import { RebootComponent } from './reboot/reboot.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ErrorPageComponent } from './error-page/error-page.component';
     DeleteComponent,
     EmergencyComponent,
     LandingPageComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    RebootComponent
   ],
   imports: [
     BrowserModule,
