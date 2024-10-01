@@ -158,8 +158,8 @@ body {
     height: 106px;
     border-radius: 35.11px;  /* This will apply the circular effect */
     overflow: hidden;  /* Ensures that the image is cropped within the container */
+    border: 5px solid #FF7E7E;
     opacity: 0.6;  /* 60% opacity */
-    border: 2px solid #FF7E7E;
 }
 
 .fingerprint {

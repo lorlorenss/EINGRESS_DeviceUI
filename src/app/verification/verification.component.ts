@@ -3,11 +3,12 @@ import {
   ElementRef,
   ViewChild,
   HostListener,
-  Output,
+  OnInit,
 } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { Router } from '@angular/router';
 import { Employee } from '../interface/employee';
+import { TimeService } from '../services/time.service';
 
 @Component({
   selector: 'app-verification',
@@ -19,10 +20,13 @@ export class VerificationComponent {
   isHidden: boolean = false;
   rfidInput: string = '';
   employee: Employee[] = [];
+  currentTime: Date = new Date();
+  greeting: string = '';
 
   constructor(
     private employeeService: EmployeeService,
-    private router: Router
+    private router: Router,
+    private timeService: TimeService
   ) {
     // Focus on the input textbox when the component is initialized
     setTimeout(() => {
@@ -52,6 +56,29 @@ export class VerificationComponent {
   //   this.isHidden = false;
   // })
   // }
+  
+  ngOnInit(): void {
+    this.updateCurrentTime();
+    setInterval(() => {
+      this.updateCurrentTime();
+    }, 1000); // Update every second
+  }
+
+  updateCurrentTime(): void {
+    this.currentTime = this.timeService.getCurrentTime();
+    this.setGreeting();
+  }
+
+  setGreeting(): void {
+    const hours = this.currentTime.getHours();
+    if (hours < 12) {
+      this.greeting = 'Good Morning!';
+    } else if (hours < 18) {
+      this.greeting = 'Good Afternoon!';
+    } else {
+      this.greeting = 'Good Evening!';
+    }
+  }
 
   submitData(): void {
     // Perform data submission logic here
@@ -59,9 +86,9 @@ export class VerificationComponent {
     const adminRfid = this.employeeService.specialRFID[0].admin;
     const shutdownRfid = this.employeeService.specialRFID[0].shutdown;
     const emergencyText = this.employeeService.emergencyText;
-    
+
     if (this.rfidInput.trim() !== '') {
-      if (this.rfidInput=== shutdownRfid) {
+      if (this.rfidInput === shutdownRfid) {
         // Special case: Navigate to 'Shutdown' after 3 seconds
         console.log('Shutdown initiated');
         setTimeout(() => {
@@ -69,14 +96,12 @@ export class VerificationComponent {
         });
       } else if (this.rfidInput == adminRfid) {
         this.router.navigateByUrl('registration');
-      }else if (this.rfidInput == emergencyText) {
+      } else if (this.rfidInput == emergencyText) {
         this.router.navigateByUrl('emergency');
         setTimeout(() => {
           this.router.navigateByUrl('landingPage');
-        }, 10000); 
-      }
-
-      else{
+        }, 10000);
+      } else {
         this.router.navigateByUrl('notAdmin');
         setTimeout(() => {
           this.router.navigateByUrl('landingPage');
