@@ -159,11 +159,14 @@ body {
     border-radius: 35.11px; /* This will apply the circular effect */
     overflow: hidden; /* Ensures that the image is cropped within the container */
     opacity: 0.6; /* 60% opacity */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .fingerprint {
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: 200%;
     object-fit: cover; /* Ensures the image covers the container and is cropped appropriately */
 }
 
