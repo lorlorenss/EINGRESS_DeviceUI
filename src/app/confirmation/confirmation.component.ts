@@ -95,7 +95,7 @@ export class ConfirmationComponent {
             this.employeeService.setEmployee(response);
             setTimeout(() => {
               this.router.navigateByUrl('landingPage');
-            }, 60000); // Return to landing page after 10 seconds
+            }, 30000); // Return to landing page after 10 seconds
           },
           error: (error: any) => {
             this.router.navigateByUrl('notMatch');

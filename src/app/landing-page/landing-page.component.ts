@@ -103,7 +103,7 @@ export class LandingPageComponent implements OnInit{
               this.router.navigateByUrl('afterLoginPage');
               setTimeout(() => {
                 this.router.navigateByUrl('landingPage');
-              }, 60000); // Return to landing page after 10 seconds
+              }, 30000); // Return to landing page after 10 seconds
             }
           },
           error: (errorMessage: string) => {
