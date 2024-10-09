@@ -86,7 +86,7 @@ export class LandingPageComponent implements OnInit{
         this.router.navigateByUrl('emergency');
         setTimeout(() => {
           this.router.navigateByUrl('landingPage');
-        }, 20000); 
+        }, 15000); 
       }
       else {
         // Default case: Perform normal login process
@@ -103,7 +103,7 @@ export class LandingPageComponent implements OnInit{
               this.router.navigateByUrl('afterLoginPage');
               setTimeout(() => {
                 this.router.navigateByUrl('landingPage');
-              }, 30000); // Return to landing page after 10 seconds
+              }, 10000); // Return to landing page after 10 seconds
             }
           },
           error: (errorMessage: string) => {
