@@ -18,6 +18,7 @@ export class EmployeeService {
     {
       admin: "0909314995",
       shutdown: "0915014675",
+      rebooot: "1876079546"
     }
 
   ];

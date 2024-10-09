@@ -1,0 +1,193 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+
+body {
+  background-color: #0C131D;
+  padding: 50px;
+}
+
+
+.main-container {
+  position: relative;
+  background: linear-gradient(180deg, #0B203F 0%, #1D54A5 100%);    /* Gradient */
+  height: 1024px;
+  width: 768px;
+  margin: 0 auto;
+  padding: 20px;
+  overflow: hidden;  /* To make sure the pseudo-element stays within bounds */
+}
+  /* background-image: url("/assets/images/landing-background.jpeg");*/
+
+.main-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("/assets/images/landing-background.jpeg") no-repeat center/cover;  /* Background image */
+  opacity: 0.2;  /* Adjust opacity here */
+  z-index: 0;  /* Ensure the background image stays behind the content */
+}
+
+.main-container > * {
+  position: relative;
+  z-index: 1;  /* Ensures content is above the background image */
+}
+
+.upper-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 144px;
+  gap: 26px;
+}
+
+.upper-container img{
+  height: 52px;
+  width: 52px;
+}
+
+.bottom{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 0px 0px 4.9px;
+  gap: 9.79px;
+}
+
+.bottom-left{
+  padding-bottom: 10px;
+}
+
+.bottom{
+  color: #B6B6B6;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  letter-spacing: 0.5em;
+  text-align: left;
+}
+
+.top{
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 48px;
+  letter-spacing: 0.03em;
+  text-align: left;
+  color: #FFFFFF;
+}
+
+.middle-container{
+  width: 100%;
+  gap: 10px;
+  padding: 36px;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  height: 84px;
+  gap: 24px;
+}
+
+.content h1{
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 48px;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.lower-content{
+  width: 100%;
+  height: calc(100% - 360px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 105px;
+}
+
+.content h2{
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  color: #FFFFFF;
+}
+
+
+.jairobot-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.JairoBot{
+  width: 442px;
+  height: 442px;
+  top: 324px;
+  left: 79px;
+  opacity: 0.1;
+}
+
+.bottom-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.error-rfid{
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 33px;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.delete-text{
+  position: absolute;
+  text-align: center;
+  font-size: 50px;
+  color: #FF7E7E;
+}
+
+.fingerprint-logo {
+  width: 86px;
+  height: 106px;
+  border-radius: 35.11px;  /* This will apply the circular effect */
+  overflow: hidden;  /* Ensures that the image is cropped within the container */
+  opacity: 0.6;  /* 60% opacity */
+}
+
+.fingerprint {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* Ensures the image covers the container and is cropped appropriately */
+}
+
+
+.hidden-input{
+  position: absolute;
+  left: -9999px;
+}
+
+@keyframes moveUpDown {
+  0% {
+      bottom: 0; 
+  }
+  100% {
+      bottom: 20px;
+  }
+}
+
+
+

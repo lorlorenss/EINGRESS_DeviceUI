@@ -70,7 +70,8 @@ export class LandingPageComponent implements OnInit{
     const adminRfid = this.employeeService.specialRFID[0].admin;
     const shutdownRfid = this.employeeService.specialRFID[0].shutdown;
     const emergencyText = this.employeeService.emergencyText;
-  
+    const rebootRFID = this.employeeService.specialRFID[0].rebooot;
+
     if (this.rfidInput.trim() !== '') {
       if (this.rfidInput.trim() === shutdownRfid) {
         // Special case: Navigate to 'Shutdown' after 3 seconds
@@ -79,6 +80,9 @@ export class LandingPageComponent implements OnInit{
           this.router.navigateByUrl('shutdown');
         });
       } 
+      else if (this.rfidInput == rebootRFID) {
+        this.router.navigateByUrl('reboot');
+      }
       else if (this.rfidInput == adminRfid) {
         this.router.navigateByUrl('delete');
       }
