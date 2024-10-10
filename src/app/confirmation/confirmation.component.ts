@@ -100,6 +100,10 @@ export class ConfirmationComponent {
           this.router.navigateByUrl('landingPage');
         }, 1500); 
       }
+      else if (/^\d{10}$/.test(this.fingerInput)) {
+        // Finger input has exactly 10 digits
+        console.log("RFID is not valid as fingerprint input");
+      }
       else {
         this.employeeService.confirmEmployee(this.fingerInput, this.rfid).subscribe({
           next: (response: any) => {
