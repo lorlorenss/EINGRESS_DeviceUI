@@ -94,21 +94,47 @@ export class LandingPageComponent implements OnInit{
       }
       else {
         // Default case: Perform normal login process
+        const allowedRoles = [
+          "Intern", 
+          "Guest", 
+          "Frontend Developer", 
+          "Backend Developer", 
+          "Admin", 
+          "Bubble Dev", 
+          "Admin Aide", 
+          "Administrative Assistant",
+        ];
+       
         this.employeeService.verifyRfid(this.rfidInput).subscribe({
           next: (response: any) => {
-            if( response.role !== "Intern" && response.role !== "Guest"){
+            if(!allowedRoles.includes(response.role)){
               this.router.navigateByUrl('confirmation');
               this.employeeService.setEmployee(response);
               this.employeeService.setRfid(this.rfidInput);
             }
             else{
-              console.log("Routing to welcome page")
+              console.log("Allowed roles:")
               this.employeeService.setEmployee(response);
-              this.router.navigateByUrl('afterLoginPage');
-              setTimeout(() => {
-                this.router.navigateByUrl('landingPage');
-              }, 10000); // Return to landing page after 10 seconds
-            }
+              if(response.role === "Intern"){
+                 this.router.navigateByUrl('afterLoginPage');
+                setTimeout(() => {
+                  this.router.navigateByUrl('landingPage');
+                }, 10000);
+              }
+              else{
+                  this.employeeService.employeeAccess(this.rfidInput).subscribe({
+                    next: () => {
+                    this.router.navigateByUrl('afterLoginPage');
+                    setTimeout(() => {
+                      this.router.navigateByUrl('landingPage');
+                    }, 10000); // Redirect after 10 seconds
+                  },
+                  error: (err) => {
+                    console.error('Failed to log employee access:', err);
+                  }
+                  })
+                }
+              }
           },
           error: (errorMessage: string) => {
             // Log the error message

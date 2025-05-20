@@ -85,7 +85,16 @@ export class EmployeeService {
     );
   }
 
-
+  employeeAccess(rfid: string): Observable<Employee> {
+    const loginEmployeeUrl = `${this.apiUrl}/log-access-exception`;
+    return this.http.post<Employee>(loginEmployeeUrl, { rfid }).pipe(
+      catchError(err => {
+        console.error('Error logging RFID access:', err);
+        return throwError(() => new Error('RFID logging failed'));
+      })
+    );
+  }
+  
   setEmployee(employee: Employee) {
     this.employeeSubject.next(employee);
   }
